@@ -1,0 +1,19 @@
+{
+  "contract": {
+    "file": "api-contract.ts",
+    "gate": "npx -y -p typescript tsc --noEmit --strict {file}",
+    "language": "typescript"
+  },
+  "build": {
+    "command": "./gradlew build"
+  },
+  "test": {
+    "command": "./gradlew test"
+  },
+  "drift": {
+    "enabled": true,
+    "sourceGlobs": ["src/**"],
+    "ignore": ["**/*.md", "**/*.test.*"]
+  },
+  "language": "korean"
+}

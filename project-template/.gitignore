@@ -1,0 +1,21 @@
+# ── OS 잔재
+.DS_Store
+Thumbs.db
+*.swp
+
+# ── Claude Code 개인 설정 (팀 공유 금지)
+.claude/settings.local.json
+
+# ── 자주 누락
+node_modules/
+.env
+.env.local
+*.log
+dist/
+build/
+.cache/
+
+# ── IDE
+.idea/
+.vscode/
+*.iml

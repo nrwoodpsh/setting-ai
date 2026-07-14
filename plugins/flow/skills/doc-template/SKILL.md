@@ -1,0 +1,39 @@
+---
+name: doc-template
+description: task-*.md 설계 문서의 표준 섹션 골격을 강제해 일관성을 확보한다. 실제 템플릿은 프로젝트의 doc/ref/patterns/task-doc/에 있고 /design의 기본 참조로 로드된다.
+---
+
+# task-*.md 템플릿
+
+## 목적
+
+설계 문서의 표준 구조 강제. 누가 쓰든 동일 골격 위에서만 문서를 만들도록 한다.
+
+## 정본 위치
+
+프로젝트의 `doc/ref/patterns/task-doc/task-template.md` (프로젝트가 소유·조정). 이 스킬은 **링크·규약** 역할만 한다.
+
+## 산출 위치
+
+`doc/design/{domain}/{phase}/task-{name}-{date}.md`
+- `{domain}`: 도메인 (예: `user`, `order`)
+- `{phase}`: 페이즈 (예: `login`, `list`)
+- `{name}`: Task 이름 (kebab-case)
+- `{date}`: `YYYYMMDD`
+- **파일명 충돌**: 같은 `{name}-{date}`가 이미 있으면 덮어쓰지 말고 `-2`·`-3` 접미사로 구분한다(재작업 이력 보존). `analysis-*`·`troubleshoot-*`·`summary-*` 산출물도 동일 규약.
+
+## 표준 섹션 (필수)
+
+1. **Requirements** — Scenario / Objective / Acceptance Criteria (측정 가능, ≥ 3)
+2. **UI/UX** — 레이아웃·인터랙션 (해당 시)
+3. **Logic** — 핵심 알고리즘·계산식·쿼리 개요
+4. **Implementation Split** — BE/FE 책임 분리 (해당 시)
+5. **File Map** — `[New]`·`[Mod]` 표시된 파일 경로 목록
+6. **Verification** — 검증 명령과 통과 조건 (Exit 0 등), AC 매핑
+7. **History** — 변경 이력 (`/builder`·`/sync`가 갱신)
+
+## 가드레일
+
+- **AC는 측정 가능해야 한다.** "사용자 친화적" 같은 모호한 표현 금지.
+- **계약 파일과 중복 작성 금지** — task에는 의도·배경·UX만, 타입·Endpoint·에러코드는 계약만.
+- 설계 변경은 History에 **사유를 자연어로** 기록. 단순 덮어쓰기 금지.

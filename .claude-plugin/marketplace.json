@@ -1,0 +1,19 @@
+{
+  "name": "setting-ai",
+  "owner": {
+    "name": "park seung hyun",
+    "email": "nrwoodpsh@gmail.com"
+  },
+  "description": "범용 AI 개발 워크플로우 마켓플레이스. flow 플러그인을 배포한다.",
+  "metadata": {
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "flow",
+      "source": "./flow",
+      "description": "그래프형 진입점 + 수렴점 + 드리프트 방어를 갖춘 범용 AI 개발 워크플로우",
+      "version": "0.1.0"
+    }
+  ]
+}
