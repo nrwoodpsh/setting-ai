@@ -15,48 +15,47 @@
 
 ---
 
-## 1. 프로젝트 고유층 복사
+## 1. 플러그인 설치 (git에서)
 
-```bash
-# 워크플로우 repo에서 프로젝트 템플릿을 새 프로젝트로 복사
-cp -r /path/to/setting-ai/project-template/. /path/to/my-project/
+새 프로젝트 폴더에서 Claude Code를 실행하고:
 
-# (선택) 주력 스택 프리셋이 준비돼 있으면 patterns 정본으로 복사
-cp -r /path/to/setting-ai/presets/house-style/patterns/. /path/to/my-project/doc/ref/patterns/
+```
+/plugin marketplace add nrwoodpsh/setting-ai       # git repo가 곧 마켓플레이스
+/plugin install flow@setting-ai --scope project    # --scope project = 팀 공유(.claude/settings.json)
 ```
 
-복사되면 프로젝트에 이런 게 생긴다:
+- 설치 후 `/setup` `/design` `/builder` `/sync` 등이 뜬다.
+- `marketplace add`가 setting-ai 전체를 `~/.claude/plugins/marketplaces/setting-ai/`에 받아둔다 — **`project-template`도 여기 포함되므로 별도 clone·복사 불필요.**
+- setting-ai를 **직접 고칠 때(플러그인 개발)만** 로컬 경로로: `/plugin marketplace add /path/to/setting-ai` → `/reload-plugins`.
 
+---
+
+## 2. `/setup` — 골격 생성 + 채우기
+
+```
+/setup
+```
+`/setup`이 `cp` 없이 다 한다:
+- `doc/` 구조·`CLAUDE.md`·`workflow.config.json`을 **만들고**(마켓플레이스 클론의 `project-template/`에서 복사하거나 새로 생성),
+- 프로젝트를 스캔해 스택·네이밍·도메인 후보를 **채우고**,
+- 가드레일·도구정책 등 **결정 항목만 질문**한다.
+
+만들어지는 구조:
 ```
 my-project/
-├── CLAUDE.md                # 채워야 함
-├── workflow.config.json      # 채워야 함
+├── CLAUDE.md              # 정체성·가드레일 (초안 채워짐)
+├── workflow.config.json   # 스택 게이트·테스트 명령 (추론 채워짐)
 └── doc/
-    ├── ref/{architecture,patterns,db-schema,domains,glossary}/   # 참조(입력) — 채워야 함
-    └── {design,decisions,summary,analysis}/                      # 산출물(출력) — 비어 있음
+    ├── ref/{architecture,patterns,db-schema,domains,glossary}/   # 참조(입력)
+    └── {design,decisions,summary,analysis}/                      # 산출물(출력)
 ```
+> house-style 프리셋이 준비됐으면 마켓플레이스 클론의 `presets/house-style/patterns/`를 `doc/ref/patterns/`로 복사해 씨앗을 심는다.
 
 ---
 
-## 2. 플러그인 설치
+## 3. (참고) 각 파일 수동 이해·조정
 
-`my-project`에서 Claude Code를 실행하고:
-
-```
-/plugin marketplace add nrwoodpsh/setting-ai
-# 로컬 개발 중이면: /plugin marketplace add /path/to/setting-ai
-
-/plugin install flow@setting-ai --scope project
-```
-
-- `--scope project` → 팀 공유(`.claude/settings.json`에 기록, 커밋됨).
-- 설치 후 `/design` `/builder` `/sync` `/troubleshoot` `/analysis` `/review`가 뜬다.
-
----
-
-## 3. 고유층 채우기 (핵심)
-
-> **빠른 방법**: `/setup`(=`/flow:setup`)을 실행하면 프로젝트를 스캔해 `CLAUDE.md`·`workflow.config.json`·`doc/ref/domains` 초안을 채워준다. 사람은 **결정 항목(가드레일·도구정책·도메인 경계)만 확인**하면 된다. 아래는 각 파일을 수동으로 이해·조정할 때의 설명.
+`/setup`이 채운 것을 검수하거나 직접 손볼 때의 설명.
 
 ### 3-1. `workflow.config.json` — 스택 주입
 
@@ -123,7 +122,7 @@ my-project/
 | 증상 | 원인·해결 |
 |:---|:---|
 | 커맨드가 안 뜸 | `/plugin install` 스코프 확인, `/reload-plugins` |
-| 계약 게이트가 안 돎 | `workflow.config.json`의 `contract.gate` 미설정, 또는 `jq` 미설치 |
+| 계약 게이트가 안 돎 | `workflow.config.json`의 `contract.gate` 미설정 (드물게 node·python3·perl 모두 부재) |
 | `/commit`이 드리프트 경고 | 소스만 바뀌고 문서 미갱신 → `/sync` 먼저, 또는 불필요한 변경이면 그대로 진행 |
 | `/builder`가 엉뚱한 걸 잡음 | "대상 확정 선언"에서 경로를 명시 지정 (`/builder user/login`) |
 

@@ -5,9 +5,9 @@ argument-hint: [특별히 참조할 경로 (선택)]
 
 # /setup — 프로젝트 초기 세팅 (부트스트랩)
 
-`project-template`을 복사해 온 프로젝트의 **고유층 placeholder를 채운다.** 목표: 사람이 한 자 한 자 타이핑하지 않도록, **AI가 추론 가능한 것은 자동으로, 결정·정책은 질문으로.**
+프로젝트의 **고유층을 만들고 채운다.** 목표: 사람이 `cp`도, 한 자 한 자 타이핑도 안 하도록 — **골격은 자동 생성, 추론 가능한 값은 자동, 결정·정책은 질문으로.**
 
-> 전제: `project-template`이 이미 복사돼 `CLAUDE.md`·`workflow.config.json`·`doc/` 골격이 있음. 없으면 먼저 복사하라고 안내한다.
+> 전제 없음. 골격(`CLAUDE.md`·`workflow.config.json`·`doc/`)이 없으면 이 커맨드가 스캐폴딩한다 — 사용자가 setting-ai를 clone하거나 `cp`할 필요 없다.
 
 ## 원칙: AI 추론 vs 사람 결정
 
@@ -22,7 +22,10 @@ argument-hint: [특별히 참조할 경로 (선택)]
 
 ## 절차
 
-1. **기존 파일 확인**: `CLAUDE.md`·`workflow.config.json`이 이미 채워져 있으면(placeholder가 아니면) **덮어쓰지 말고** 무엇을 갱신할지 사용자에게 확인.
+1. **골격 준비**: `CLAUDE.md`·`workflow.config.json`·`doc/` 구조가 없으면 스캐폴딩한다.
+   - 마켓플레이스 클론(`~/.claude/plugins/marketplaces/*/project-template/`)이 있으면 거기서 복사.
+   - 없으면 표준 구조를 새로 생성 — `doc/ref/{architecture,patterns,db-schema,domains,glossary}` · `doc/{design,decisions,summary,analysis}` + `CLAUDE.md` · `workflow.config.json`.
+   - 이미 채워진 파일(placeholder 아님)이 있으면 **덮어쓰지 말고** 무엇을 갱신할지 사용자에게 확인.
 2. **스캔**: 스택 지표를 읽어 기술 스택 식별.
    - `package.json`(Node/TS — `scripts`의 test·build를 그대로 활용), `build.gradle`·`pom.xml`(Java), `requirements.txt`·`pyproject.toml`(Python), `go.mod`(Go) 등.
    - 폴더 구조·기존 네이밍·테스트 프레임워크. 광범위하면 `explorer`에 위임.

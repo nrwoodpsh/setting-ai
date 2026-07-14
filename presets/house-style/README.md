@@ -25,17 +25,14 @@ presets/house-style/
 
 ## 새 프로젝트 세팅 순서
 
-```bash
-# 1) 프로젝트 템플릿 복사
-cp -r <이 repo>/project-template/. ./my-project/
+```
+# 1) 플러그인 설치 (git에서 — 로컬 clone·복사 불필요)
+/plugin marketplace add nrwoodpsh/setting-ai
+/plugin install flow@setting-ai --scope project
 
-# 2) house-style 프리셋을 patterns 정본으로 복사 (준비돼 있으면)
-cp -r <이 repo>/presets/house-style/patterns/. ./my-project/doc/ref/patterns/
+# 2) 골격 생성 + 채우기 (cp 없이 /setup이 다 함)
+/setup
 
-# 3) 워크플로우 플러그인 설치
-#    (my-project에서 Claude Code 실행 후)
-#    /plugin marketplace add <이 repo 경로 또는 nrwoodpsh/setting-ai>
-#    /plugin install flow@setting-ai --scope project
-
-# 4) CLAUDE.md·workflow.config.json을 이 프로젝트에 맞게 채움
+# 3) (이 프리셋이 준비돼 있으면) house-style 패턴을 정본으로 복사
+#    cp -r ~/.claude/plugins/marketplaces/setting-ai/presets/house-style/patterns/. ./doc/ref/patterns/
 ```
