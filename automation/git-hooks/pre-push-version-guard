@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# setting-ai(플러그인 소스) repo 전용 pre-push 훅.
+# plugins/flow/** 콘텐츠가 origin 대비 바뀌었는데 플러그인 버전이 안 올랐으면 push를 막는다.
+# 이유: 설치측 캐시 키가 버전이라, 버전이 그대로면 /plugin marketplace update가 재복사를 안 한다.
+# 우회: git push --no-verify
+set -uo pipefail
+
+up=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || echo origin/main)
+
+# 플러그인 콘텐츠 변경 (버전 파일 자체는 제외)
+changed=$(git diff --name-only "$up"..HEAD -- plugins/flow ':(exclude)plugins/flow/.claude-plugin/plugin.json' 2>/dev/null || true)
+[ -n "$changed" ] || exit 0   # 플러그인 콘텐츠 변화 없음 → 통과
+
+# 버전 파일이 이번 range에서 바뀌었나
+vchg=$(git diff --name-only "$up"..HEAD -- plugins/flow/.claude-plugin/plugin.json 2>/dev/null || true)
+if [ -z "$vchg" ]; then
+  echo "" 1>&2
+  echo "⛔ version-guard: plugins/flow가 바뀌었는데 플러그인 버전이 안 올랐습니다." 1>&2
+  echo "   버전이 그대로면 설치측이 /plugin marketplace update로 못 받습니다(캐시 키=버전)." 1>&2
+  echo "   → scripts/bump-version.sh minor   (기능추가) 실행 후 커밋하고 다시 push하세요." 1>&2
+  echo "   (우회: git push --no-verify)" 1>&2
+  echo "" 1>&2
+  exit 1
+fi
+exit 0

@@ -28,8 +28,31 @@ for h in pre-commit post-commit pre-push; do cp "$H" ".git/hooks/$h"; chmod +x "
 - **공유 강화**: `.githooks/`에 두고 `git config core.hooksPath .githooks`(setup이 설정) → 파일은 git으로 공유, 활성화만 clone당 1회.
 - husky·pre-commit(framework)을 이미 쓰면 그쪽에 등록해도 된다.
 
+## 버전 관리 (플러그인 배포 — 이 setting-ai repo에서만)
+
+**설치측 캐시 키가 버전**이다(`cache/setting-ai/flow/<버전>/`). 내용을 바꿔도 **버전이 그대로면** `/plugin marketplace update`가 "이미 있음"으로 보고 **재복사를 안 한다.** → **플러그인을 바꾸면 반드시 버전 업.**
+
+**버전은 두 파일에 같은 값**: `plugins/flow/.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json`(flow 항목). 손으로 두 곳 맞추면 실수하므로 스크립트로:
+
+```bash
+scripts/bump-version.sh minor    # 기능 추가 (0.2.0 → 0.3.0)  ← 두 파일 원자적으로
+scripts/bump-version.sh patch    # 수정      (0.2.0 → 0.2.1)
+scripts/bump-version.sh major    # 깨지는 변경 (0.2.0 → 1.0.0)
+git commit -am "chore: bump flow <새버전>" && git push
+```
+
+**까먹음 방지 (pre-push 가드)** — `plugins/flow/**`가 바뀌었는데 버전이 안 올랐으면 **push를 막는다**:
+```bash
+# setting-ai repo에서 1회 설치:
+cp automation/git-hooks/pre-push-version-guard .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+```
+> 이 가드는 **플러그인 소스(setting-ai) repo 전용**이다(consumer 프로젝트의 drift-hook과 별개). 우회: `git push --no-verify`.
+
+**흐름**: 플러그인 수정 → `bump-version.sh minor` → commit·push → 설치측 `/plugin marketplace update setting-ai` + `/reload-plugins`로 반영.
+
 ## CI·스케줄 (헤드리스 flow 호출) — 선택
 
 - **PR 리뷰 게이트**: GitHub Actions에서 `claude -p "/flow:review 이 diff"` → 코멘트.
 - **야간/완료 발행**: 스케줄 → `claude -p "/flow:publish"` → Notion.
 - 제약: CI에 API 인증 필요, 대화형 OAuth MCP(Notion 등)는 헤드리스에서 토큰 방식 인증 필요, 실행마다 토큰 비용. **무인 커밋 금지** — 리포트/PR까지만.
+- (선택) 완전 자동 버전업: push 시 GitHub Action이 `plugins/flow` 변경 감지해 자동 bump — 봇 커밋이 생기니, 위 pre-push 가드 + 수동 bump가 더 단순·권장.

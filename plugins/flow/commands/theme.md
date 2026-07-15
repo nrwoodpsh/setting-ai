@@ -1,0 +1,51 @@
+---
+description: 디자인 시스템 스펙(토큰+컴포넌트)을 프론트엔드에 적용. getdesign.md 목록에서 고르거나 로컬 md. Tier1 토큰(색·타이포·radii·spacing) 전면 + Tier2 컴포넌트 룩. 레이아웃·구조 재설계(Tier3)는 하지 않는다.
+argument-hint: [브랜드명(getdesign.md) 또는 @로컬.md 또는 URL] [→ 적용할 프론트 경로]
+---
+
+# /theme — 디자인 테마 적용
+
+디자인 시스템 스펙을 프론트엔드에 입힌다. **토큰 전면 교체(Tier1) + 핵심 컴포넌트 룩(Tier2)**까지. `/design`(소프트웨어 설계)과 다른 커맨드다.
+
+> **정확히 무엇이 바뀌나 (오해 방지)**:
+> - ✅ **적용**: 색·타이포·간격(토큰) + **각 컴포넌트의 룩**(버튼·카드·인풋·네비 모양·radius·폰트).
+> - ⛔ **유지**: **화면 배치·구조**(어떤 컴포넌트가 어디에, 몇 컬럼, 섹션 순서·페이지 IA). **스킨만 갈고 화면 구조는 그대로.** (예: 로그인 폼은 그대로인데 버튼·색·폰트·간격만 스펙대로 바뀜.)
+
+## 대상 확정 선언 (작업 전 필수)
+
+```
+[/theme] 디자인 스펙: {브랜드 또는 파일}
+         소스: getdesign.md/{brand}/design-md  |  @로컬.md  |  URL
+         적용 대상: {프론트 경로·스택}  (예: frontend/ = Next.js+MUI)
+         범위: Tier1 토큰 전면 + Tier2 컴포넌트 (Tier3 구조 제외)
+         → 진행할까요?
+```
+
+## 스펙 확보 — 두 경로 (로컬 파일이 정확·권장)
+
+**① 로컬 파일 (권장)**: getdesign.md 사이트에서 원하는 디자인의 `DESIGN.md`를 **직접 다운로드** → 프로젝트 **`doc/ref/theme/`**에 넣기 → `/theme @doc/ref/theme/DESIGN-apple.md` (또는 인자 없이 실행하면 `doc/ref/theme/`의 스펙을 자동 인식). **원문 그대로라 토큰이 정확하다.**
+
+**② 온라인 자동 (편의)**: `/theme`(인자 없음) → `getdesign.md/design-md` 목록을 fetch해 고르기 → `getdesign.md/{brand}/design-md` fetch. 편하지만 **웹 변환 과정에서 토큰이 부정확할 수 있으니**, 결과를 검토하고 애매하면 ①(다운로드) 방식으로.
+
+→ 스펙에서 **frontmatter 토큰**(`colors`·`typography`·`rounded`·`spacing`)과 `components:`를 추출한다. (형식: `presets/designs/README.md`)
+
+## 절차
+
+1. **대상·스택 감지**: 프론트 경로·스택 식별(Next.js·React·Vue + Tailwind/MUI/CSS변수). `workflow.config.json`의 `theme` 설정이 있으면 사용.
+2. **Tier1 — 토큰 생성 (전면)**:
+   - 스택에 맞는 테마 산출: **CSS 변수**(`theme.css`) / **Tailwind** `theme.extend` / **MUI** `createTheme({palette, typography, shape, spacing})`.
+   - 진입점에 연결(import). 프로젝트가 토큰(CSS var·테마)을 쓰면 **전체 룩이 즉시 전환**된다.
+   - **폰트**: 독점 폰트(SF Pro 등)는 스펙의 **대체 폰트**(예: Inter) + letter-spacing 미세조정으로.
+3. **Tier2 — 컴포넌트 매핑 (핵심만)**:
+   - 스펙의 컴포넌트(button-primary·card·input·nav 등)를 **프로젝트의 실제 컴포넌트에 매핑**해 토큰으로 스타일. 프로젝트에 없는 것은 건너뛴다.
+   - 매핑 결과를 `doc/ref/patterns/`에 기록(추적).
+4. **검증**: 빌드 + (가능하면) 스토리북/스냅샷으로 확인. 실패 시 리포트.
+5. **원칙 보존**: 스펙의 Do/Don't·레이아웃 철학은 `doc/ref/patterns/`에 **참고 메모로만** 남긴다(자동 적용 안 함).
+
+## 가드레일
+
+- **Tier3(레이아웃·구조 재설계) 금지.** 타일 교차·IA 변경 등은 하지 않는다 — 원칙만 기록.
+- **기존 커스텀 스타일 덮어쓰기 전 확인.** 무엇이 바뀌는지 보여주고, 커밋으로 되돌릴 수 있게.
+- **표준 디자인 충돌 주의**: eGov는 정부 표준(KRDS)이 요구될 수 있다 — 정부 서비스면 적용 전 경고·확인. 내부/사설이면 자유.
+- **폰트 라이선스**: 독점 폰트를 embed하지 말고 대체 폰트/시스템 스택으로.
+- 스펙에 없는 값은 지어내지 않는다(스펙 기반). 코드 로직은 건드리지 않는다(스타일·테마만).

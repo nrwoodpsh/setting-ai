@@ -19,5 +19,10 @@
     "target": "notion",
     "notionParent": ""
   },
+  "theme": {
+    "source": "getdesign.md",
+    "stack": "",
+    "targetPath": ""
+  },
   "language": "korean"
 }
