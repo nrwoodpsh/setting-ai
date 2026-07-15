@@ -20,8 +20,8 @@ argument-hint: [도메인/페이즈 또는 "project" 전체 (선택)] [→ Notio
 
 ## 전제
 
-- **Notion MCP 연결**(예: `claude mcp add --transport http notion https://mcp.notion.com/mcp`, 또는 설정→커넥터→Notion). 미연결이면 설정 방법 안내 후 중단.
-- 발행처(Notion DB/페이지 ID 또는 이름)는 `workflow.config.json`의 `publish` 설정 또는 사용자 입력.
+- **Notion MCP 연결** — 머신/계정당 **한 번, 수동**. OAuth(설정→커넥터→Notion) 또는 `claude mcp add --transport http notion https://mcp.notion.com/mcp`. **인증은 AI가 대신 못 한다**(당신 Notion 접근 허가 = 보안). 미연결이면 설정 방법 안내 후 중단.
+- **발행처(닻)**: Notion 통합은 **공유된 부모(DB/페이지) 안에서만** 쓸 수 있다. `workflow.config.json`의 `publish.notionParent`에 부모를 지정 — **없으면 최초 실행 시 한 번 물어보고 저장**한다(다음부터 자동).
 
 ## 기본 참조
 
@@ -29,7 +29,7 @@ argument-hint: [도메인/페이즈 또는 "project" 전체 (선택)] [→ Notio
 
 ## 절차
 
-1. **대상·발행처 확정**: 위 선언 출력 후 사용자 확인. Notion MCP 미연결이면 중단·안내.
+1. **대상·발행처 확정**: 발행 대상(도메인/페이즈 또는 project)을 확정. 발행처(`publish.notionParent`)가 config에 있으면 그대로, **없으면 한 번 물어보고 config에 저장**. Notion MCP 미연결이면 중단·안내.
 2. **자료 수집**: 소스 문서를 읽어 발행 항목을 모은다(추측 금지, 문서에 있는 것만).
 3. **구조화**: 아래 섹션으로 정리.
    - **개요**: 도메인·기능·기간·작업자·브랜치
@@ -38,7 +38,7 @@ argument-hint: [도메인/페이즈 또는 "project" 전체 (선택)] [→ Notio
    - **구현 요약**: 변경 사항(BE/FE/DB)·변경 파일 (summary에서)
    - **결정(ADR)**: 관련 결정과 트레이드오프 (decisions에서)
    - **후속·제약**: 남은 작업·알려진 제약
-4. **발행**: Notion MCP로 페이지 생성(기존 있으면 갱신). 성공 시 **페이지 URL을 반환**.
+4. **발행 (없으면 생성, 있으면 갱신)**: `publish.notionParent`(부모 DB/페이지) **아래에** 도메인/기능별 자식 페이지를 만든다 — 같은 대상의 페이지가 **이미 있으면 갱신**, **없으면 새로 생성**. (닻만 한 번 정하면 이후엔 지정 없이 자동.) 성공 시 **페이지 URL 반환**.
 5. **기록**: 발행 URL을 `doc/summary/`의 해당 요약에 한 줄 남긴다(추적).
 
 ## 대안 출력 (Notion을 안 쓸 때)

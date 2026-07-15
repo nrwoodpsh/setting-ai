@@ -4,20 +4,61 @@
 
 > flow 코어는 스택 무관이다. 이 카탈로그(특히 eGov)는 **옵션 층**으로, 선택했을 때만 관여한다.
 
-## 카탈로그
+## 원형 카탈로그 (복제해 시작 — `/flow:setup`이 쓰는 키)
 
 | 키 | 아키텍처 | 원형 소스 | 비고 |
 |:---|:---|:---|:---|
-| `egov-backend` | eGov 백엔드(FE 분리) | `eGovFramework/egovframe-template-simple-backend` | 프론트는 `egovframe-template-simple-react` |
+| **`egov-msa`** ⭐ | **eGov MSA (클라우드 네이티브)** | `eGovFramework/egovframe-msa-edu` (164★) | Spring Boot **10 서비스**(Gateway·Eureka·Config·User·Portal·Board·Reserve×3) + Next.js/TS + **Docker·K8s** + MySQL·RabbitMQ·ELK·Zipkin·JWT |
+| `egov-backend` | eGov 백엔드(FE 분리) | `eGovFramework/egovframe-template-simple-backend` (97★) | 프론트 `egovframe-template-simple-react`(261★) |
 | `egov-homepage` | eGov 단순 홈페이지 | `eGovFramework/egovframe-simple-homepage-template` | 메인·회원·게시판 |
 | `egov-enterprise` | eGov 내부업무 | `eGovFramework/egovframe-enterprise-business-template` | 권한·프로그램·메뉴 관리 |
 | `egov-portal` | eGov 포털 | `eGovFramework/egovframe-portal-site-template` | 게시판·FAQ·Q&A·설문 |
-| `egov-msa` | eGov MSA(클라우드 네이티브) | `eGovFramework/egovframe-msa-edu` | 게이트웨이·디스커버리 등 |
 | `spring-monolith` | 범용 Spring 모놀리식 | [Spring Initializr](https://start.spring.io) | eGov 아님. `spring init` 또는 start.spring.io |
 | **`custom`** | **내가 지정** | 임의 git URL (사내 스타터·개인 보일러플레이트) | 아래 "커스텀 원형 추가" |
 | `none` | 원형 없음 | — | 기존 코드에 flow만 얹음 |
 
-> 공통 기능(253개)이 필요하면 `eGovFramework/egovframe-common-components`를 참조·발췌.
+> MSA 부가: 운영환경(Istio·OpenTelemetry) `egovframe-operating-environment-msa`, 공통 컴포넌트 `egovframe-msa-common-components`. `egov-msa`는 교육용이라 무거우니 clone 후 필요한 서비스만 슬림화 권장.
+
+## eGov 그 외 저장소 (원형 아님 — 갖다 쓰는 자원)
+
+위 원형 표는 **복제해 시작**하는 것. 아래는 프로젝트에 **필요할 때 붙여 쓰는** eGov 자원(중복 없음).
+
+**📦 라이브러리 — 기능 발췌**
+| repo | ★ | 용도 |
+|:---|:--:|:---|
+| `egovframe-common-components` | 75 | **253개 공통 기능**(게시판·회원·권한·코드관리) 발췌해 내 프로젝트에 |
+| `egovframe-runtime` | 46 | 표준프레임워크 실행환경 코어 모듈 |
+| `egovframe-msa-common-components` | 8 | MSA용 공통 컴포넌트 |
+
+**🛠 개발 도구·설치**
+| repo | ★ | 용도 |
+|:---|:--:|:---|
+| `egovframe-development` | 29 | 개발 도구셋(코드 생성 등) |
+| `egovframe-vscode-initializr` | 10 | VSCode 프로젝트 생성기(eGov판 Initializr) |
+| `homebrew-egovframe` | 4 | macOS `brew`로 CLI 설치 |
+| `egovframe-templates-download` | — | initializr용 템플릿 아카이브 |
+
+**☁️ MSA 운영·클라우드 — 배포·운영 단계**
+| repo | ★ | 용도 |
+|:---|:--:|:---|
+| `egovframe-operating-environment-msa` | 1 | Istio 서비스메시 · OpenTelemetry 관측 |
+| `egovframe-ex-cloud-data-stream` | 1 | Spring Cloud Stream 예제 |
+
+**🤖 신기술 · 📱 모바일**
+| repo | ★ | 용도 |
+|:---|:--:|:---|
+| `egovframe-ai-rag` | 14 | Spring AI 기반 **RAG**(문서검색+LLM) |
+| `egovframe-mobile-device-api` | 2 | **Flutter/Dart** 모바일 (최신) |
+| `egovframe-mobile-device-api-legacy` | 5 | Android/iOS (구형) |
+
+**📚 문서·학습**
+| repo | ★ | 용도 |
+|:---|:--:|:---|
+| `egovframe-docs` | 29 | 표준프레임워크 **공식 가이드** |
+| `egovframe-hands-on-guide` | 1 | 실습 따라하기 |
+| `awesome-egovframe` | — | 커뮤니티 프로젝트 모음 |
+
+> **MSA 추천 조합**: 시작 `egov-msa`(원형) → 기능 `egovframe-common-components` 발췌 → 운영 `egovframe-operating-environment-msa` → (선택) `egovframe-ai-rag`.
 
 ## 복제 절차 (scaffold가 수행)
 

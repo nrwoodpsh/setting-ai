@@ -15,5 +15,9 @@
     "sourceGlobs": ["src/**", "app/**"],
     "ignore": ["**/*.md", "**/*.test.*"]
   },
+  "publish": {
+    "target": "notion",
+    "notionParent": ""
+  },
   "language": "korean"
 }
