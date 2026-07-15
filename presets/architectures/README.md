@@ -9,6 +9,7 @@
 | 키 | 아키텍처 | 원형 소스 | 비고 |
 |:---|:---|:---|:---|
 | **`egov-msa`** ⭐ | **eGov MSA (클라우드 네이티브)** | `eGovFramework/egovframe-msa-edu` (164★) | Spring Boot **10 서비스**(Gateway·Eureka·Config·User·Portal·Board·Reserve×3) + Next.js/TS + **Docker·K8s** + MySQL·RabbitMQ·ELK·Zipkin·JWT |
+| **`egov-msa-cc`** | eGov MSA (**신규·컴포넌트 풍부**) | `eGovFramework/egovframe-msa-common-components` (8★) | **Spring Boot 3.5.6 · Java 17 · Spring Cloud 2025** + 공통컴포넌트 23+3(Login·Author·Board·Search·Questionnaire·MobileId·Main) + KRDS. **신규 프로젝트 권장** |
 | `egov-backend` | eGov 백엔드(FE 분리) | `eGovFramework/egovframe-template-simple-backend` (97★) | 프론트 `egovframe-template-simple-react`(261★) |
 | `egov-homepage` | eGov 단순 홈페이지 | `eGovFramework/egovframe-simple-homepage-template` | 메인·회원·게시판 |
 | `egov-enterprise` | eGov 내부업무 | `eGovFramework/egovframe-enterprise-business-template` | 권한·프로그램·메뉴 관리 |
@@ -17,7 +18,7 @@
 | **`custom`** | **내가 지정** | 임의 git URL (사내 스타터·개인 보일러플레이트) | 아래 "커스텀 원형 추가" |
 | `none` | 원형 없음 | — | 기존 코드에 flow만 얹음 |
 
-> MSA 부가: 운영환경(Istio·OpenTelemetry) `egovframe-operating-environment-msa`, 공통 컴포넌트 `egovframe-msa-common-components`. `egov-msa`는 교육용이라 무거우니 clone 후 필요한 서비스만 슬림화 권장.
+> **MSA 원형은 위 2종** — 둘 다 Gateway·Eureka·Config를 각자 가진 **풀 MSA라 대체 관계(합치지 않음)**. 신규는 `egov-msa-cc`(최신) 권장, `egov-msa`(msa-edu, 2021 교육용)는 학습·참고 + 무거우니 슬림화. MSA 운영환경: `egovframe-operating-environment-msa`(Istio·OpenTelemetry).
 
 ## eGov 그 외 저장소 (원형 아님 — 갖다 쓰는 자원)
 
@@ -28,7 +29,6 @@
 |:---|:--:|:---|
 | `egovframe-common-components` | 75 | **253개 공통 기능**(게시판·회원·권한·코드관리) 발췌해 내 프로젝트에 |
 | `egovframe-runtime` | 46 | 표준프레임워크 실행환경 코어 모듈 |
-| `egovframe-msa-common-components` | 8 | MSA용 공통 컴포넌트 |
 
 **🛠 개발 도구·설치**
 | repo | ★ | 용도 |
