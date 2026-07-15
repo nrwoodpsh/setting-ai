@@ -66,7 +66,7 @@ my-project/
     "gate": "npx -y -p typescript tsc --noEmit --strict {file}"  // 스택에 맞게
   },
   "test": { "command": "npm test" },   // mvn test / pytest 등
-  "drift": { "enabled": true },
+  "drift": { "mode": "warn" },   // warn(알림) | block(push 차단) | autosync(실험) | off
   "language": "korean"
 }
 ```
@@ -87,7 +87,7 @@ my-project/
 
 ### 신규 기능
 ```
-/design
+/flow:design
 [TASK] 회원 로그인 API와 화면
 [REFERENCE] @doc/ref/db-schema/user.sql
 [EVALUATE] AC: (1) 성공 시 토큰 발급 (2) 실패 시 U001 (3) 응답 200ms 이내
@@ -95,24 +95,25 @@ my-project/
 → `doc/design/user/login/`에 `task-*.md` + `api-contract.ts` 생성. 계약은 `contract-gate` 훅이 자동 검증.
 
 ```
-/builder                 # 최근 설계 자동 식별 → "대상 확정 선언" 후 구현
-/sync                    # git diff로 문서 갱신 + summary 생성 (커밋은 안 함)
-/commit                  # 요청 시에만 — 변경 목록·메시지 작성 후 커밋
+/flow:builder            # 최근 설계 자동 식별 → "대상 확정 선언" 후 구현
+/flow:sync               # git diff로 문서 갱신 + summary 생성 (커밋은 안 함)
+/flow:commit             # 요청 시에만 — 변경 목록·메시지 작성 후 커밋
+/flow:publish            # (선택) 개발 결과를 Notion에 발행
 ```
-→ `/commit`이 커밋 전 `drift-check`로 문서 동기화를 확인하고 변경 목록을 보여준다. **push·merge는 당신이 외부 툴로.**
+→ `/flow:commit`이 커밋 전 `drift-check`로 문서 동기화를 확인. **push·merge는 당신이 외부 툴로.** git 훅도 커밋/푸시 시 드리프트를 감지 — 동작은 `workflow.config.json`의 `drift.mode`(`warn`·`block`·`autosync`·`off`)로 선택.
 
 ### 버그·장애
 ```
-/troubleshoot
+/flow:troubleshoot
 [TASK] 로그인 후 401이 간헐 발생
 [REFERENCE] @logs/error.log @src/auth/TokenFilter.java
 ```
-→ 근본원인·수정안 → `/builder`(또는 직접 수정) → `/sync`.
+→ 근본원인·수정안 → `/flow:builder`(또는 직접 수정) → `/flow:sync`.
 
 ### 필요할 때
 ```
-/analysis    # 레거시 파악 (넓은 지도)
-/review      # 품질·보안 점검 (아무 때나 오버레이)
+/flow:analysis    # 레거시 파악 (넓은 지도)
+/flow:review      # 품질·보안 점검 (아무 때나 오버레이)
 ```
 
 ---

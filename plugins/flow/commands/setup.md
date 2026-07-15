@@ -1,5 +1,5 @@
 ---
-description: 프로젝트를 flow 워크플로우에 맞게 초기 세팅. 코드베이스를 스캔해 CLAUDE.md·workflow.config.json·doc/ref/domains 초안을 채운다. AI가 추론 가능한 것만 채우고, 결정·정책은 사용자에게 확인한다.
+description: 프로젝트를 flow 워크플로우에 맞게 초기 세팅. (선택) 아키텍처 원형 생성 + 추천 도구(LSP/MCP) 제안 + CLAUDE.md·workflow.config·doc 초안 채움. 추론 가능한 것만 자동, 결정·정책·설치는 사용자 확인.
 argument-hint: [특별히 참조할 경로 (선택)]
 ---
 
@@ -30,14 +30,20 @@ argument-hint: [특별히 참조할 경로 (선택)]
 2. **스캔**: 스택 지표를 읽어 기술 스택 식별.
    - `package.json`(Node/TS — `scripts`의 test·build를 그대로 활용), `build.gradle`·`pom.xml`(Java), `requirements.txt`·`pyproject.toml`(Python), `go.mod`(Go) 등.
    - 폴더 구조·기존 네이밍·테스트 프레임워크. 광범위하면 `explorer`에 위임.
-   - **스캔할 지표가 없으면(빈/신규 프로젝트) 추론하지 말고 사용자에게 스택을 질문**한다. 답을 받아 그에 맞는 기본값으로 채운다(예: TS→`tsc`, Java→`gradle`, Python→`pytest`).
-3. **초안 생성** (추론 항목):
-   - `CLAUDE.md` §1 정체성, §5 코딩 스타일 — 스캔 결과로 채움.
-   - `workflow.config.json` — 스택에 맞는 `contract.gate`·`test.command` 추론(예: TS→`tsc --noEmit --strict {file}`, Java→`./gradlew compileJava`, Python→`mypy`). **추론한 명령은 한 번 실행해 실제 도는지 확인**하고, 안 되면 사용자에게 정정 요청.
+   - **스캔할 지표가 없으면(빈/신규 프로젝트) 추론하지 말고 사용자에게 스택을 질문**한다.
+3. **프로젝트 원형 제안** *(빈/신규 프로젝트일 때만)*: 코드가 거의 없으면 `presets/architectures/` 카탈로그에서 원형을 제안한다 — `spring-monolith` · `egov-backend` · `egov-msa` · `egov-homepage` · `egov-enterprise` · `egov-portal` · `none`.
+   - 사용자가 고르면 해당 **검증된 템플릿 repo를 복제**(`git clone --depth 1` → `.git` 제거 → 프로젝트명·groupId·패키지 치환)하고, `workflow.config.json`·`doc/ref/architecture`를 그 원형에 맞게 조정.
+   - **기존 코드가 있으면 이 단계는 건너뛴다.** 원형은 프롬프트로 생성하지 않는다(검증된 repo 복제만). 상세: `presets/architectures/README.md`.
+4. **초안 생성** (추론 항목):
+   - `CLAUDE.md` §1 정체성, §5 코딩 스타일 — 스캔/원형 결과로 채움.
+   - `workflow.config.json` — 스택에 맞는 `contract.gate`·`test.command` 추론. **추론한 명령은 한 번 실행해 실제 도는지 확인**하고, 안 되면 사용자에게 정정 요청.
    - `doc/ref/domains/` — 코드에서 도메인 후보를 뽑아 각 `{domain}.md` 초안(경계는 "확인 필요"로 표기).
-   - **선택**: 기존 대표 파일에서 layout·error-handling 패턴을 역추출해 `doc/ref/patterns/` 초안 제안(사람 확정). 자신 없으면 건너뛰고 사람이 채우게 둔다.
-4. **확인 요청** (결정 항목): 가드레일·도구 정책·도메인 경계·커밋 규약을 **질문으로** 확정. 답을 받아 `CLAUDE.md` §4·§6에 반영.
-5. **대상 확정 선언 + 요약**: 채운 값(스택·게이트·도메인 후보)을 보여주고, 사용자 검수를 요청.
+   - **선택**: 기존/원형 대표 파일에서 layout·error-handling 패턴을 역추출해 `doc/ref/patterns/` 초안 제안(사람 확정).
+5. **추천 도구·자동화 제안**:
+   - *(LSP · MCP)* 감지 스택에 맞는 도구를 **제안**한다 — 예: Java/eGov → LSP `jdtls`, MCP `DB 읽기전용`(스키마). 승인 시 `.lsp.json`·`.mcp.json`(또는 settings) 설정을 기록. **무단 설치·크리덴셜 입력은 하지 않는다**(바이너리·비밀정보는 사용자). 상세: `guide/recommended-tools.md`.
+   - *(drift-check git 훅)* `drift-hook.sh`를 `.git/hooks/`의 pre-commit·post-commit·pre-push **3개 이름으로 설치** 제안(Sourcetree 등 외부 커밋까지 커버). 동작은 `workflow.config.json`의 **`drift.mode`**로 선택: `warn`(기본·알림)·`block`(push 차단)·`autosync`(실험)·`off`. 상세: `automation/README.md`.
+6. **확인 요청** (결정 항목): 가드레일·도구 정책·도메인 경계·커밋 규약을 **질문으로** 확정. 답을 받아 `CLAUDE.md` §4·§6에 반영.
+7. **대상 확정 선언 + 요약**: 채운 값(스택·원형·게이트·도메인·추천도구)을 보여주고, 사용자 검수를 요청.
 
 ```
 [/setup] 감지 스택: {예: Spring Boot 3 + Vue 3 + TS}
@@ -50,7 +56,8 @@ argument-hint: [특별히 참조할 경로 (선택)]
 
 ## 가드레일
 
-- **코드를 수정하지 않는다.** 세팅 문서(`CLAUDE.md`·config·`doc/ref`)만 생성·갱신.
+- **기존 코드를 수정하지 않는다.** 세팅 문서만 생성·갱신. (원형 생성은 *빈* 프로젝트에 검증된 템플릿을 복제하는 것 — 기존 코드가 있으면 하지 않는다.)
+- **도구는 제안만.** LSP·MCP·플러그인을 무단 설치하지 않는다 — 설정만 기록하고 바이너리·크리덴셜은 사용자가 채운다.
 - **결정·정책은 추측 금지.** 반드시 질문으로 확정.
 - **기존 값 덮어쓰기 금지.** placeholder가 아닌 실제 값이 있으면 확인 후 갱신.
 - 내장 `/init`과 역할이 다르다 — `/init`은 일반 CLAUDE.md 생성, `/setup`은 flow 층(config·domains 포함) 전체 세팅.

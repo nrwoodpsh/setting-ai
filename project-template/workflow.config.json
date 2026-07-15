@@ -11,7 +11,7 @@
     "command": "npm test"
   },
   "drift": {
-    "enabled": true,
+    "mode": "warn",
     "sourceGlobs": ["src/**", "app/**"],
     "ignore": ["**/*.md", "**/*.test.*"]
   },

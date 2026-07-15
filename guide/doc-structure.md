@@ -53,17 +53,21 @@ my-project/
 
 ### 신규 기능 한 바퀴 — 각 단계가 읽고/쓰는 것
 
+커맨드는 `/flow:<이름>`으로 호출.
+
 | # | 단계 | 읽음 (입력) | 씀 (출력) |
 |:--:|:---|:---|:---|
+| 0 | `/setup` *(프로젝트 1회)* | 스택 지표·(선택)원형 repo | `CLAUDE.md`·`workflow.config`·`doc/` 골격·`.claude/settings.json` |
 | 1 | `/analysis` *(선택)* | `ref/`, 레거시 코드 | `analysis/` |
 | 2 | `/design` | `CLAUDE.md`, `ref/domains`, `ref/architecture`, `ref/patterns` | `design/{d}/{p}/task-*.md` + 계약 |
 | 3 | `/builder` | 대상 task+계약, `workflow.config` | **소스 코드**, task의 History |
 | 4 | `/review` *(선택)* | 계약, task, 변경 소스 | (리포트만 — 파일 안 씀) |
 | 5 | `/sync` | `git diff`, 대상 task·계약·summary | `design/` 갱신, `summary/` 생성 |
-| 6 | `/commit` *(요청 시)* | `git status/diff`, design·summary | **git 커밋** (drift-check 통과 후) |
+| 6 | `/commit` *(요청 시)* | `git status/diff`, design·summary | **git 커밋** |
 | 7 | **사람** | — | **push · merge** (외부 툴) |
+| 8 | `/publish` *(선택)* | design·summary·decisions | **Notion 페이지**(외부 발행) |
 
-> `decisions/`(ADR)는 중요한 아키텍처 결정이 나올 때마다 2·3단계 중 기록 (상시 아님).
+> `decisions/`(ADR)는 중요한 결정 시 2·3·5단계에서 기록(상시 아님). **git 훅**(config `drift.mode`)이 커밋/푸시 시 드리프트를 감지(warn/block).
 
 ### SSOT 두 산출물의 생애 (가장 중요한 흐름)
 
@@ -79,7 +83,9 @@ task-*.md (자연어 설계)
 ### 한눈에 보는 전체 흐름
 
 ```
-       [입력: ref/ = 사람이 채운 정본]
+   /setup  → 고유층·골격 생성 (+선택: 아키텍처 원형)      [프로젝트 1회]
+       │
+       ▼   [입력: ref/ = 사람이 채운 정본]
                   │ (참조)
    ┌──────────────┼───────────────┐
  /analysis    /design         /troubleshoot     ← 진입 (여러 문)
@@ -88,11 +94,13 @@ task-*.md (자연어 설계)
                   │
               /sync                              ← 수렴 (문서 동기화, 한 문)
                   │
-              /commit  (요청 시)                 ← 커밋 (drift 확인)
+              /commit  (요청 시)                 ← 커밋 (git 훅 drift.mode 감지)
                   │
              사람: push/merge                    ← 외부 툴
+                  │
+              /publish  (선택)                   ← Notion 등 발행
 
-   /review = 아무 단계 뒤에나 끼우는 오버레이
+   /review = 아무 단계 뒤에나 끼우는 오버레이   ·   커맨드는 /flow:<이름>
 ```
 
 ### 검증은 3층 (헷갈리지 말 것)
