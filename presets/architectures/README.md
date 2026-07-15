@@ -15,6 +15,7 @@
 | `egov-enterprise` | eGov 내부업무 | `eGovFramework/egovframe-enterprise-business-template` | 권한·프로그램·메뉴 관리 |
 | `egov-portal` | eGov 포털 | `eGovFramework/egovframe-portal-site-template` | 게시판·FAQ·Q&A·설문 |
 | `spring-monolith` | 범용 Spring 모놀리식 | [Spring Initializr](https://start.spring.io) | eGov 아님. `spring init` 또는 start.spring.io |
+| **`py-msa-ai`** | **Python MSA + LLM/LoRA** (사내 원형) | `nrwoodpsh/py-msa-ai-starter` | FastAPI 게이트웨이(JWT+HMAC 신뢰헤더)·Kafka(KRaft)·Postgres(서비스별 DB)·Ollama·SQLAlchemy. 배포형태 3종(API/워커/lib), 트랜잭션 아웃박스, LoRA 트레이너. API 전용(BE) |
 | **`custom`** | **내가 지정** | 임의 git URL (사내 스타터·개인 보일러플레이트) | 아래 "커스텀 원형 추가" |
 | `none` | 원형 없음 | — | 기존 코드에 flow만 얹음 |
 
