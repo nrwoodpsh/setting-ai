@@ -25,6 +25,7 @@ argument-hint: [특별히 참조할 경로 (선택)]
 1. **골격 준비**: `CLAUDE.md`·`workflow.config.json`·`doc/` 구조가 없으면 스캐폴딩한다.
    - 마켓플레이스 클론(`~/.claude/plugins/marketplaces/*/project-template/`)이 있으면 거기서 복사.
    - 없으면 표준 구조를 새로 생성 — `doc/ref/{architecture,patterns,db-schema,domains,glossary}` · `doc/{design,decisions,summary,analysis}` + `CLAUDE.md` · `workflow.config.json`.
+   - **팀 자동 온보딩**: 프로젝트 `.claude/settings.json`에 마켓플레이스 등록(`extraKnownMarketplaces`) + flow 활성화(`enabledPlugins`)를 넣는다(`project-template/.claude/settings.json`와 동일). 이 파일이 커밋되면 팀원은 clone 후 신뢰 승인만으로 flow가 붙는다. 이미 있으면 유지.
    - 이미 채워진 파일(placeholder 아님)이 있으면 **덮어쓰지 말고** 무엇을 갱신할지 사용자에게 확인.
 2. **스캔**: 스택 지표를 읽어 기술 스택 식별.
    - `package.json`(Node/TS — `scripts`의 test·build를 그대로 활용), `build.gradle`·`pom.xml`(Java), `requirements.txt`·`pyproject.toml`(Python), `go.mod`(Go) 등.

@@ -1,0 +1,16 @@
+{
+  "extraKnownMarketplaces": {
+    "setting-ai": {
+      "source": {
+        "source": "github",
+        "repo": "nrwoodpsh/setting-ai"
+      }
+    }
+  },
+  "enabledPlugins": [
+    {
+      "marketplace": "setting-ai",
+      "plugin": "flow"
+    }
+  ]
+}

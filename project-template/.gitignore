@@ -3,8 +3,12 @@
 Thumbs.db
 *.swp
 
-# ── Claude Code 개인 설정 (팀 공유 금지)
-.claude/settings.local.json
+# ── Claude Code 설정
+#   .claude/ 는 보통 전역 gitignore로 무시된다. 팀 온보딩용 settings.json만 추적하고,
+#   개인 설정(settings.local.json)과 그 외는 무시한다.
+!.claude/
+.claude/*
+!.claude/settings.json
 
 # ── 자주 누락
 node_modules/

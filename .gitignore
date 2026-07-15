@@ -6,6 +6,11 @@ Thumbs.db
 # ── Claude Code 개인 설정
 .claude/settings.local.json
 
+# ── project-template의 팀 온보딩 설정은 추적 (전역 gitignore가 .claude/를 무시하므로 예외 명시)
+!project-template/.claude/
+project-template/.claude/*
+!project-template/.claude/settings.json
+
 # ── 자주 누락
 node_modules/
 .env
