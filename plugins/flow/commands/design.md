@@ -1,6 +1,6 @@
 ---
 description: 설계 진입점. 신규 기능을 자연어 설계(task-*.md)와 코드 계약(api-contract)으로 산출. 구현 코드는 작성하지 않는다.
-argument-hint: [무엇을 설계할지] [REFERENCE @file ...] [AC: 인수조건 3개 이상]
+argument-hint: '[무엇을 설계할지] [REFERENCE @file ...] [AC: 인수조건 3개 이상]'
 ---
 
 # /design — 설계 국면

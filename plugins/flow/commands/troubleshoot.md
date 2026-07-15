@@ -1,6 +1,6 @@
 ---
 description: 장애·버그 진입점. 특정 실패를 재현·근본원인 분석하고 수정안을 제시. 넓은 설계가 아니라 좁은 근본원인에 집중.
-argument-hint: [증상/에러 메시지] [REFERENCE @file ... 관련 로그·코드]
+argument-hint: '[증상/에러 메시지] [REFERENCE @file ... 관련 로그·코드]'
 ---
 
 # /troubleshoot — 장애·버그 국면

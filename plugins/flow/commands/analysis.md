@@ -1,6 +1,6 @@
 ---
 description: 분석 진입점. 레거시 코드·기획서를 읽어 영향도·요구사항을 자연어로 정리. 코드를 수정하지 않는다.
-argument-hint: [분석 주제] [REFERENCE @file/@dir ... 분석 대상]
+argument-hint: '[분석 주제] [REFERENCE @file/@dir ... 분석 대상]'
 ---
 
 # /analysis — 분석 국면

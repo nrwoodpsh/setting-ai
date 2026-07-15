@@ -1,6 +1,6 @@
 ---
 description: 디자인 시스템 스펙(토큰+컴포넌트)을 프론트엔드에 적용. getdesign.md 목록에서 고르거나 로컬 md. Tier1 토큰(색·타이포·radii·spacing) 전면 + Tier2 컴포넌트 룩. 레이아웃·구조 재설계(Tier3)는 하지 않는다.
-argument-hint: [브랜드명(getdesign.md) 또는 @로컬.md 또는 URL] [→ 적용할 프론트 경로]
+argument-hint: '[브랜드명(getdesign.md) 또는 @로컬.md 또는 URL] [→ 적용할 프론트 경로]'
 ---
 
 # /theme — 디자인 테마 적용

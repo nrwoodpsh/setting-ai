@@ -1,6 +1,6 @@
 ---
 description: 리뷰 오버레이. 아무 국면 뒤에나 필요할 때 실행. 정합성·보안·아키텍처를 점검하고 리포트만 산출(코드 수정 금지).
-argument-hint: [파일/도메인 (선택 — 없으면 git diff 대상)]
+argument-hint: '[파일/도메인 (선택 — 없으면 git diff 대상)]'
 ---
 
 # /review — 리뷰 오버레이

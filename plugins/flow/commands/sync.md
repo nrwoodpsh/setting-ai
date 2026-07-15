@@ -1,6 +1,6 @@
 ---
 description: 수렴점. 모든 진입점(design/troubleshoot)이 코드로 이어졌으면 반드시 통과. Git Diff로 설계 문서를 갱신하고 요약을 생성. 자동 커밋 금지.
-argument-hint: [도메인 (선택 — 없으면 git diff에서 자동 분류)]
+argument-hint: '[도메인 (선택 — 없으면 git diff에서 자동 분류)]'
 ---
 
 # /sync — 수렴 국면 (여러 문 입장, 한 문 퇴장)
