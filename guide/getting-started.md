@@ -33,9 +33,11 @@
 ## 2. `/setup` — 골격 생성 + 채우기
 
 ```
-/setup
+/flow:setup list          # 먼저 원형 카탈로그 보기 (아무것도 안 만듦)
+/flow:setup               # 대화형 (빈 프로젝트=원형 메뉴 / 진행중=목록만 보여주고 넘어감)
+/flow:setup egov-msa-cc   # 원형 키를 알면 바로 / repo URL이면 커스텀 원형
 ```
-`/setup`이 `cp` 없이 다 한다:
+`/flow:setup`이 `cp` 없이 다 한다:
 - `doc/` 구조·`CLAUDE.md`·`workflow.config.json`을 **만들고**(마켓플레이스 클론의 `project-template/`에서 복사하거나 새로 생성),
 - 프로젝트를 스캔해 스택·네이밍·도메인 후보를 **채우고**,
 - 가드레일·도구정책 등 **결정 항목만 질문**한다.
