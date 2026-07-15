@@ -14,6 +14,7 @@
 | `egov-portal` | eGov 포털 | `eGovFramework/egovframe-portal-site-template` | 게시판·FAQ·Q&A·설문 |
 | `egov-msa` | eGov MSA(클라우드 네이티브) | `eGovFramework/egovframe-msa-edu` | 게이트웨이·디스커버리 등 |
 | `spring-monolith` | 범용 Spring 모놀리식 | [Spring Initializr](https://start.spring.io) | eGov 아님. `spring init` 또는 start.spring.io |
+| **`custom`** | **내가 지정** | 임의 git URL (사내 스타터·개인 보일러플레이트) | 아래 "커스텀 원형 추가" |
 | `none` | 원형 없음 | — | 기존 코드에 flow만 얹음 |
 
 > 공통 기능(253개)이 필요하면 `eGovFramework/egovframe-common-components`를 참조·발췌.
@@ -27,6 +28,19 @@ rm -rf tmp-egov/.git
 # tmp-egov 내용을 프로젝트로 복사 → 프로젝트명·groupId·패키지 치환
 # 그 뒤 flow 문서층(doc/·CLAUDE.md·workflow.config.json) 생성·연결
 ```
+
+## 커스텀 원형 추가 (내 스타터 쓰기)
+
+eGov·Spring 말고 **당신 것**을 쓰는 두 방법:
+
+1. **즉석 지정**: `/flow:setup` 실행 중 "원형은 `https://github.com/우리회사/사내-스타터` 로 해줘"처럼 **repo URL을 직접 주면** 그걸 복제한다(같은 절차: clone → `.git` 삭제 → 복사).
+2. **카탈로그 등록**: 이 파일 위 표에 한 줄 추가해 팀 표준으로 고정.
+   ```
+   | our-backend | 사내 백엔드 표준 | github.com/우리회사/backend-starter | 우리 컨벤션 반영 |
+   ```
+   그러면 다음부터 `/flow:setup`이 그 원형도 후보로 제안한다.
+
+> 요건: 복제해서 그대로 쓸 수 있는 **동작하는 스타터 repo**면 된다(public/사내 git 모두). 사내 private repo면 setup 실행 환경에 git 접근 권한이 있어야 한다.
 
 ## 원형 선택 후 flow가 하는 일
 

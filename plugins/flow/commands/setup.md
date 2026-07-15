@@ -33,6 +33,7 @@ argument-hint: [특별히 참조할 경로 (선택)]
    - **스캔할 지표가 없으면(빈/신규 프로젝트) 추론하지 말고 사용자에게 스택을 질문**한다.
 3. **프로젝트 원형 제안** *(빈/신규 프로젝트일 때만)*: 코드가 거의 없으면 `presets/architectures/` 카탈로그에서 원형을 제안한다 — `spring-monolith` · `egov-backend` · `egov-msa` · `egov-homepage` · `egov-enterprise` · `egov-portal` · `none`.
    - 사용자가 고르면 해당 **검증된 템플릿 repo를 복제**(`git clone --depth 1` → `.git` 제거 → 프로젝트명·groupId·패키지 치환)하고, `workflow.config.json`·`doc/ref/architecture`를 그 원형에 맞게 조정.
+   - 카탈로그 외에 **사용자가 임의 repo URL을 지정**하면 그걸 복제한다(사내 스타터·개인 보일러플레이트도 가능). `.git` 제거로 원본 git 연결은 끊긴다(LICENSE는 유지).
    - **기존 코드가 있으면 이 단계는 건너뛴다.** 원형은 프롬프트로 생성하지 않는다(검증된 repo 복제만). 상세: `presets/architectures/README.md`.
 4. **초안 생성** (추론 항목):
    - `CLAUDE.md` §1 정체성, §5 코딩 스타일 — 스캔/원형 결과로 채움.
