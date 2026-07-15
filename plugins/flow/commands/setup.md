@@ -1,6 +1,6 @@
 ---
-description: 프로젝트를 flow 워크플로우에 맞게 초기 세팅. (선택) 아키텍처 원형 생성 + 추천 도구(LSP/MCP) 제안 + CLAUDE.md·workflow.config·doc 초안 채움. 추론 가능한 것만 자동, 결정·정책·설치는 사용자 확인.
-argument-hint: [특별히 참조할 경로 (선택)]
+description: 프로젝트를 flow 워크플로우에 맞게 초기 세팅. (선택) 아키텍처 원형 생성 + 추천 도구(LSP/MCP) 제안 + CLAUDE.md·workflow.config·doc 초안 채움. 인자 없으면 대화형, `list`면 원형 카탈로그 출력.
+argument-hint: [list | 원형키(egov-msa …) | repoURL | 참조경로 | (비움=대화형)]
 ---
 
 # /setup — 프로젝트 초기 세팅 (부트스트랩)
@@ -8,6 +8,34 @@ argument-hint: [특별히 참조할 경로 (선택)]
 프로젝트의 **고유층을 만들고 채운다.** 목표: 사람이 `cp`도, 한 자 한 자 타이핑도 안 하도록 — **골격은 자동 생성, 추론 가능한 값은 자동, 결정·정책은 질문으로.**
 
 > 전제 없음. 골격(`CLAUDE.md`·`workflow.config.json`·`doc/`)이 없으면 이 커맨드가 스캐폴딩한다 — 사용자가 setting-ai를 clone하거나 `cp`할 필요 없다.
+
+## 인자 (`$ARGUMENTS`) — 뭘 넣을 수 있나
+
+| 인자 | 동작 |
+|:---|:---|
+| **(비움)** | 대화형. 빈/신규면 **카탈로그를 메뉴로 띄워** 고르게 하고, 진행중 프로젝트면 **목록만 참고로 보여주고 넘어간다**(원형은 안 깖). |
+| **`list`** *(또는 `?`·`catalog`)* | **원형 목록만 출력하고 멈춘다**(아무것도 안 만듦). 아래 "원형 카탈로그" 표를 그대로 보여준다. |
+| **원형 키** (`egov-msa`·`egov-msa-cc`·`egov-backend`·`egov-homepage`·`egov-enterprise`·`egov-portal`·`spring-monolith`·`none`) | 그 원형으로 **바로 진행**(제안 단계 건너뜀). |
+| **repo URL** (`https://github.com/…`) | 그 repo를 **커스텀 원형**으로 복제(사내 스타터·개인 보일러플레이트). |
+| **참조 경로** (`@doc/…`·파일) | 세팅 시 참고할 자료로 사용(원형 선택과 무관). |
+
+> **"뭐가 있는지 모르겠다" → 먼저 `/flow:setup list`.** 전체 원형·키·소스를 표로 보여준다. 그 뒤 원하는 키로 `/flow:setup egov-msa-cc`처럼 실행.
+
+## 원형 카탈로그 (`list`가 출력 · 소스: `presets/architectures/README.md`)
+
+| 키 | 아키텍처 | 비고 |
+|:---|:---|:---|
+| `egov-msa-cc` ⭐ | eGov MSA (신규·컴포넌트 풍부) | Spring Boot 3.5.6·Java 17·Cloud 2025 + 공통컴포넌트 다수 + KRDS. **신규 권장** |
+| `egov-msa` | eGov MSA (클라우드 네이티브, 교육용) | 10 서비스(Gateway·Eureka·Config·User·Board…) + Next.js + Docker·K8s. 무거움 |
+| `egov-backend` | eGov 백엔드(FE 분리) | + `egovframe-template-simple-react` 프론트 |
+| `egov-homepage` | eGov 단순 홈페이지 | 메인·회원·게시판 |
+| `egov-enterprise` | eGov 내부업무 | 권한·프로그램·메뉴 관리 |
+| `egov-portal` | eGov 포털 | 게시판·FAQ·Q&A·설문 |
+| `spring-monolith` | 범용 Spring 모놀리식 | eGov 아님(start.spring.io) |
+| `custom` | **내 스타터** | 임의 git URL 직접 지정 |
+| `none` | 원형 없음 | 기존 코드에 flow만 얹음 |
+
+> 표는 요약이다. eGov 부가 자원(공통컴포넌트·운영환경·RAG 등)·이름치환 규칙·복제 절차는 **`presets/architectures/README.md`** 참조. 커스텀 원형을 팀 표준으로 고정하려면 그 파일 표에 한 줄 추가.
 
 ## 원칙: AI 추론 vs 사람 결정
 
@@ -31,10 +59,14 @@ argument-hint: [특별히 참조할 경로 (선택)]
    - `package.json`(Node/TS — `scripts`의 test·build를 그대로 활용), `build.gradle`·`pom.xml`(Java), `requirements.txt`·`pyproject.toml`(Python), `go.mod`(Go) 등.
    - 폴더 구조·기존 네이밍·테스트 프레임워크. 광범위하면 `explorer`에 위임.
    - **스캔할 지표가 없으면(빈/신규 프로젝트) 추론하지 말고 사용자에게 스택을 질문**한다.
-3. **프로젝트 원형 제안** *(빈/신규 프로젝트일 때만)*: 코드가 거의 없으면 `presets/architectures/` 카탈로그에서 원형을 제안한다 — `spring-monolith` · `egov-backend` · `egov-msa` · `egov-homepage` · `egov-enterprise` · `egov-portal` · `none`.
-   - 사용자가 고르면 해당 **검증된 템플릿 repo를 복제**(`git clone --depth 1` → `.git` 제거 → 프로젝트명·groupId·패키지 치환)하고, `workflow.config.json`·`doc/ref/architecture`를 그 원형에 맞게 조정.
-   - 카탈로그 외에 **사용자가 임의 repo URL을 지정**하면 그걸 복제한다(사내 스타터·개인 보일러플레이트도 가능). `.git` 제거로 원본 git 연결은 끊긴다(LICENSE는 유지).
-   - **기존 코드가 있으면 이 단계는 건너뛴다.** 원형은 프롬프트로 생성하지 않는다(검증된 repo 복제만). 상세: `presets/architectures/README.md`.
+3. **프로젝트 원형** *(빈/신규 프로젝트일 때만)*:
+   - **인자로 원형 키/URL을 이미 받았으면** 제안을 건너뛰고 바로 그 원형으로 복제.
+   - **인자가 없으면 위 "원형 카탈로그" 표(9종 전부 — `custom`·`none` 포함)를 메뉴로 그대로 보여주고** 고르게 한다(사용자가 키를 몰라도 되게 — 절대 목록 없이 물어보지 않는다).
+     - `custom` 선택 시 → **repo URL을 물어** 그걸 복제.
+     - `none` 선택 시 → 원형을 깔지 않고 flow 문서층만 얹고 넘어감.
+   - 고르면 해당 **검증된 템플릿 repo를 복제**(`git clone --depth 1` → `.git` 제거 → 프로젝트명·groupId·패키지 치환)하고, `workflow.config.json`·`doc/ref/architecture`를 그 원형에 맞게 조정.
+   - 카탈로그 외 **임의 repo URL**을 주면 그걸 복제한다(사내 스타터·개인 보일러플레이트). `.git` 제거로 원본 git 연결은 끊긴다(LICENSE는 유지).
+   - **기존 코드가 있으면 원형 복제는 하지 않는다**(가드레일: 기존 코드에 원형을 덮지 않음). 단 **위 카탈로그 표는 참고용으로 한 번 보여주고 넘어간다** — "원형은 안 깔지만, 팀이 나중에 참고할 수 있게 목록만 표시" 후 다음 단계로. 원형은 프롬프트로 생성하지 않는다(검증된 repo 복제만). 상세: `presets/architectures/README.md`.
 4. **초안 생성** (추론 항목):
    - `CLAUDE.md` §1 정체성, §5 코딩 스타일 — 스캔/원형 결과로 채움.
    - `workflow.config.json` — 스택에 맞는 `contract.gate`·`test.command` 추론. **추론한 명령은 한 번 실행해 실제 도는지 확인**하고, 안 되면 사용자에게 정정 요청.

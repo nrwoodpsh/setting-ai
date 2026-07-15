@@ -170,12 +170,18 @@ my-project/
 ### 🟢 오너 · 새 프로젝트 시작 *(flow는 이미 설치됨)*
 ```
 # 새 프로젝트 폴더에서 Claude Code 실행:
-/flow:setup
+/flow:setup list          # ← 뭘 고를 수 있는지 원형 카탈로그부터 보기 (아무것도 안 만듦)
+/flow:setup               # 대화형 (빈 프로젝트면 원형 메뉴, 진행중이면 목록만 보여주고 넘어감)
+/flow:setup egov-msa-cc   # 원형 키를 알면 바로 지정
+/flow:setup https://github.com/우리회사/스타터   # 사내/개인 스타터를 커스텀 원형으로
 ```
+**인자**: `list`(목록만) · **원형 키** · **repo URL**(커스텀) · 비움(대화형). 원형 키 9종:
+`egov-msa-cc`⭐ · `egov-msa` · `egov-backend` · `egov-homepage` · `egov-enterprise` · `egov-portal` · `spring-monolith` · `custom`(URL) · `none`. (상세: `presets/architectures/README.md`)
+
 `/flow:setup`이 순서대로 처리한다 (추론은 자동, 결정은 질문):
 1. **골격 생성** — `CLAUDE.md` · `workflow.config.json` · `doc/` · `.claude/settings.json`(팀 온보딩)
 2. **스택 스캔** — `package.json`·`build.gradle` 등에서 빌드·테스트·계약 게이트 명령 추론
-3. *(빈 프로젝트면)* **아키텍처 원형 제안** — `egov-msa` · `egov-backend` · `spring-monolith` · **커스텀 repo URL** · `none`. 고르면 그 repo를 clone(원본 `.git` 제거로 연결은 끊김, LICENSE 유지)
+3. **아키텍처 원형** — 인자로 키/URL을 줬으면 바로 그걸로. 없으면 **위 9종 카탈로그를 메뉴로** 보여줌. *빈 프로젝트*면 골라서 clone(원본 `.git` 제거로 연결 끊김, LICENSE 유지), *진행중*이면 목록만 참고로 보여주고 원형은 안 깖.
 4. **추천 도구 제안** — 스택별 LSP(예: Java→`jdtls`) · MCP(예: DB 읽기전용) + **drift 훅** 설치
 5. **결정 항목만 질문** — 가드레일 · 도구정책 · 도메인 경계
 
