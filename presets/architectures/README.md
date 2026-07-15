@@ -70,6 +70,20 @@ rm -rf tmp-egov/.git
 # 그 뒤 flow 문서층(doc/·CLAUDE.md·workflow.config.json) 생성·연결
 ```
 
+## 이름 치환 (복제 후 — 정체성만 바꾸고 기능명은 유지)
+
+clone은 템플릿 이름(`msa-edu`·`org.egovframe.cloud`)을 **그대로** 가져온다. 폴더명은 복제 대상(예: `GREED`)이 되지만, **내부 이름은 안 바뀐다.** 규칙: **정체성 이름만 바꾸고 기능 이름은 둔다.**
+
+| 대상 | 예 | 처리 |
+|:---|:---|:---|
+| **바꿈 (정체성)** | 패키지 루트 `org.egovframe.cloud` → `com.myco.greed` | **IDE Refactor > Rename Package** 권장 |
+| | `groupId` `org.egovframe` → `com.myco` | build.gradle/pom 텍스트 치환 |
+| | 프로젝트/문서 제목 `msa-edu` → `GREED` | 텍스트 치환 |
+| **유지 (기능)** | `gateway`·`user-service`·`board-service`·`config`·`discovery` | **그대로** (기능을 뜻함, GREED에서도 gateway는 gateway) |
+| | docker-compose·k8s 서비스명 | 그대로 (원하면만 변경) |
+
+**flow vs 당신**: `/flow:setup`이 텍스트 치환(groupId·제목·단순 패키지 문자열)의 **초안**을 잡는다. 단 **패키지 rename은 파일 이동+`package`선언+`import`가 얽혀** 스크립트 치환이 위험하다 → **IDE refactor로 마무리 + `build`(컴파일)로 검증**을 권장. **완전 자동 아님**: 밑작업은 flow, 패키지 rename·검증은 사람.
+
 ## 커스텀 원형 추가 (내 스타터 쓰기)
 
 eGov·Spring 말고 **당신 것**을 쓰는 두 방법:
