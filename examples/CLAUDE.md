@@ -30,7 +30,7 @@
 
 ### 항상 참조 (인덱스 상시, 본문은 선택 로드)
 - `doc/ref/domains/` — 도메인 경계·맵
-- `doc/ref/architecture/` — 아키텍처·기술 스택
+- `doc/ref/architecture/` — 아키텍처·기술 스택·크로스커팅 제약(UTC·금액단위 등)
 - `doc/ref/patterns/` — 확정 패턴
 - `doc/ref/db-schema/` — DB DDL (index=테이블 목록)
 - `doc/ref/glossary/` — 용어집
