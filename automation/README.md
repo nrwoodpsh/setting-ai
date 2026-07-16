@@ -53,6 +53,27 @@ cp automation/git-hooks/pre-push-version-guard .git/hooks/pre-push && chmod +x .
 ## CI·스케줄 (헤드리스 flow 호출) — 선택
 
 - **PR 리뷰 게이트**: GitHub Actions에서 `claude -p "/flow:review 이 diff"` → 코멘트.
+- **드리프트 게이트(서버사이드)**: 로컬 `drift-hook`은 `git push --no-verify`로 우회되니, PR에서 한 번 더 막고 싶으면 Actions로. 코드 변경이 있는데 `doc/summary/` 갱신이 없으면 실패 — 로컬 훅(우회 가능) + 이 게이트(우회 불가)로 이중 방어.
+  ```yaml
+  # .github/workflows/drift-gate.yml
+  name: Drift Gate
+  on: pull_request
+  jobs:
+    check:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+          with: { fetch-depth: 0 }
+        - name: 코드 변경엔 doc/summary 동반 확인
+          run: |
+            BASE=${{ github.event.pull_request.base.sha }}
+            HEAD=${{ github.event.pull_request.head.sha }}
+            CODE=$(git diff --name-only $BASE $HEAD | grep -Ev '^(doc/|\.claude/|\.github/|.*\.md$)' | wc -l)
+            SUM=$(git diff --name-only $BASE $HEAD | grep -E '^doc/summary/' | wc -l)
+            if [ "$CODE" -gt 0 ] && [ "$SUM" -eq 0 ]; then
+              echo "::error::코드 변경이 있으나 doc/summary/ 갱신 없음. /flow:sync 실행 후 다시 푸시."; exit 1
+            fi
+  ```
 - **야간/완료 발행**: 스케줄 → `claude -p "/flow:publish"` → Notion.
 - 제약: CI에 API 인증 필요, 대화형 OAuth MCP(Notion 등)는 헤드리스에서 토큰 방식 인증 필요, 실행마다 토큰 비용. **무인 커밋 금지** — 리포트/PR까지만.
 - (선택) 완전 자동 버전업: push 시 GitHub Action이 `plugins/flow` 변경 감지해 자동 bump — 봇 커밋이 생기니, 위 pre-push 가드 + 수동 bump가 더 단순·권장.
