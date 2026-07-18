@@ -46,11 +46,12 @@ stage_files() {
   esac
 }
 
-# 소스(= doc/ 밖, .md 아님) 변경이 있는데 문서(doc/design·doc/summary)가 없으면 드리프트
+# 소스(= doc/·spike/ 밖, .md 아님) 변경이 있는데 문서(doc/design·doc/summary)가 없으면 드리프트
+# spike/ 는 버릴 실험 코드라 drift 대상이 아니다(/flow:spike) — 소스에서 제외해 오탐을 막는다.
 is_drift() {
   local files src docs
   files=$(stage_files); [ -n "$files" ] || return 1
-  src=$(printf '%s\n' "$files" | grep -vE '^doc/|\.md$' || true); [ -n "$src" ] || return 1
+  src=$(printf '%s\n' "$files" | grep -vE '^(doc|spike)/|\.md$' || true); [ -n "$src" ] || return 1
   docs=$(printf '%s\n' "$files" | grep -E '^doc/(design|summary)/' || true)
   [ -z "$docs" ]
 }

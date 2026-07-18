@@ -13,7 +13,7 @@
   "drift": {
     "mode": "warn",
     "sourceGlobs": ["src/**", "app/**"],
-    "ignore": ["**/*.md", "**/*.test.*"]
+    "ignore": ["**/*.md", "**/*.test.*", "spike/**"]
   },
   "publish": {
     "target": "notion",

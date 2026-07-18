@@ -16,7 +16,7 @@ description: 커밋 준비 시(=/commit) 코드는 바뀌었는데 대응 설계
 ## 확인 로직
 
 1. `git status` / `git diff --stat`로 이번에 커밋될 변경을 수집.
-2. **소스 코드** 변경이 있는지 확인. (소스 판정 기본은 "`doc/` 밖". `workflow.config.json`의 `drift.sourceGlobs`/`drift.ignore`가 있으면 그것을 따른다.)
+2. **소스 코드** 변경이 있는지 확인. (소스 판정 기본은 "`doc/` 밖". `workflow.config.json`의 `drift.sourceGlobs`/`drift.ignore`가 있으면 그것을 따른다.) **`spike/`(버릴 실험 코드, `/flow:spike`)는 소스에서 제외** — 유지보수 자산이 아니라 드리프트 대상이 아니다(config 기본 `drift.ignore`에 `spike/**` 포함).
 3. 소스 변경이 있는데, 대응 도메인의 `doc/design/`(task·계약) 또는 `doc/summary/`가 **함께 스테이징되지 않았으면** → 경고 제시:
 
 ```

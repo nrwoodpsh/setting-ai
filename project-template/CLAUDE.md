@@ -14,6 +14,7 @@
 
 | 상황 | 흐름 |
 |:---|:---|
+| 신규 프로젝트·미검증 알고리즘 | `/spike`(버릴 코드로 검증 → 지식만 ADR·ref 승격) → `/design` → … |
 | 신규 기능 | `/design` → `/builder` → `/sync` |
 | 버그·장애 | `/troubleshoot` → `/builder`(또는 직접 수정) → `/sync` |
 | 레거시 파악 | `/analysis` → `/design` → … |
@@ -36,8 +37,9 @@
 - `doc/ref/glossary/` — 용어집
 
 ### 참조 금지 (자동 로드 안 함, 필요 시 `@`로 명시 주입)
-- `doc/analysis/` — 일회성 분석·트러블슈팅
+- `doc/analysis/` — 일회성 분석·트러블슈팅·spike 결론
 - `doc/design/{작업 중 아닌 타 도메인}/`
+- `spike/` — 버릴 실험 코드(`/spike`). 프로덕션 참조·승격 금지 — 남길 것은 ADR·`ref/`로 이미 승격됨
 
 > `doc/summary/`·`doc/decisions/`는 참조 허용. Claude Code는 자동 RAG가 없으므로 참조는 항상 명시적(Read/Grep/Glob/`@` 또는 `explorer` 위임). "상시"는 로드가 아니라 인덱스만 — 큰 본문은 선택 로드.
 
