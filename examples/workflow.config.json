@@ -13,7 +13,7 @@
   "drift": {
     "mode": "warn",
     "sourceGlobs": ["src/**"],
-    "ignore": ["**/*.md", "**/*.test.*"]
+    "ignore": ["**/*.md", "**/*.test.*", "spike/**"]
   },
   "language": "korean"
 }

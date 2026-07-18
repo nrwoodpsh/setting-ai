@@ -14,6 +14,7 @@
 
 | 상황 | 흐름 |
 |:---|:---|
+| 미검증 알고리즘 검증 | `/spike`(버릴 코드로 검증 → ADR·ref 승격) → `/design` → … |
 | 신규 기능 | `/design` → `/builder` → `/sync` |
 | 버그·장애 | `/troubleshoot` → `/builder`(또는 직접 수정) → `/sync` |
 | 레거시 파악 | `/analysis` → `/design` → … |
@@ -36,7 +37,7 @@
 - `doc/ref/glossary/` — 용어집
 
 ### 참조 금지 (필요 시 `@`로 명시 주입)
-- `doc/analysis/`, `doc/design/{타 도메인}/`
+- `doc/analysis/`, `doc/design/{타 도메인}/`, `spike/`(버릴 실험 코드 — 승격 금지)
 
 ---
 
