@@ -31,7 +31,8 @@ my-project/
 | `design/{domain}/{phase}/` | 출력 | `task-*.md`(자연어 설계) + 계약(타입) | ◑ 작업 중 도메인만 | AI |
 | `decisions/` | 출력·입력 | ADR — 왜 이렇게 했나 | ◑ 허용 | AI+사람 |
 | `summary/` | 출력 | 작업 이력 요약 | ◑ 허용 | AI |
-| `analysis/` | 출력 | 일회성 분석·트러블슈팅 | ✗ 금지 | AI |
+| `analysis/` | 출력 | 일회성 분석·트러블슈팅·spike 결론 | ✗ 금지 | AI |
+| `spike/` *(doc 밖, repo 루트)* | 출력 | 버릴 실험 코드(`/spike`) — 검증 증거. **유지보수·drift·계약 게이트 대상 아님** | ✗ 금지 | AI |
 
 ### 핵심 원리 3가지
 
@@ -58,6 +59,7 @@ my-project/
 | # | 단계 | 읽음 (입력) | 씀 (출력) |
 |:--:|:---|:---|:---|
 | 0 | `/setup` *(프로젝트 1회)* | 스택 지표·(선택)원형 repo | `CLAUDE.md`·`workflow.config`·`doc/` 골격·`.claude/settings.json` |
+| 0.5 | `/spike` *(신규 프로젝트 앞단, 선택)* | 가설·데이터·`ref/architecture` | `spike/`(버릴 코드)·`analysis/spike-*.md`·(승격) `decisions/`·`ref/architecture/` |
 | 1 | `/analysis` *(선택)* | `ref/`, 레거시 코드 | `analysis/` |
 | 2 | `/design` | `CLAUDE.md`, `ref/domains`, `ref/architecture`, `ref/patterns` | `design/{d}/{p}/task-*.md` + 계약 |
 | 3 | `/builder` | 대상 task+계약, `workflow.config` | **소스 코드**, task의 History |
@@ -85,6 +87,8 @@ task-*.md (자연어 설계)
 ```
    /setup  → 고유층·골격 생성 (+선택: 아키텍처 원형)      [프로젝트 1회]
        │
+       ├─ (신규 프로젝트 앞단) 알파=ADR 1장 → /spike(버릴 코드로 핵심 검증)
+       │        └─ 지식만 승격: decisions/(ADR) · ref/architecture/ · ref/domains/
        ▼   [입력: ref/ = 사람이 채운 정본]
                   │ (참조)
    ┌──────────────┼───────────────┐

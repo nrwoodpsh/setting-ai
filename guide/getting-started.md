@@ -87,6 +87,22 @@ my-project/
 
 ## 4. 첫 기능 — 흐름 타보기
 
+### 신규 프로젝트 앞단 — 알파 → `/spike` (핵심 알고리즘이 불확실할 때)
+
+기존 코드가 없는 새 프로젝트이고 **핵심 알고리즘·기술이 되는지부터 불확실**하면, 바로 `/design`으로 가지 말고 앞에서 리스크를 태운다.
+
+1. **알파(목표·가설) = ADR 한 장.** 프로젝트의 목표·핵심 가설·성공 기준을 `doc/decisions/0001-*.md`에 남긴다(커맨드 아님, 문서 1장). "무엇이 되면 이 프로젝트가 성립하는가".
+2. **`/spike`로 검증.** 버릴 코드로 그 가설만 빠르게 확인한다.
+   ```
+   /flow:spike
+   [가설] 임베딩 기반 매칭이 10만 건에서 200ms 내 응답
+   [기준] p95 < 200ms 이면 채택, 넘으면 대안(역색인) 재검토
+   ```
+   → `spike/`에 실험 코드(버릴 것), `doc/analysis/spike-*.md`에 결론. **채택/기각 판정 + 핵심 결정은 ADR로 승격**, 확정된 제약은 `doc/ref/architecture/`로.
+3. **검증이 끝나면 자산 모드로.** spike 코드를 그대로 쓰지 말고, ADR을 입력 삼아 `ref/architecture`·`ref/domains`를 확정한 뒤 도메인별 `/design → /builder`로 **재설계**한다.
+
+> `spike/`는 drift·계약 게이트 대상이 아니다(config `drift.ignore`에 `spike/**`, `CLAUDE.md` 참조 금지). 앞단은 **학습 모드**(게이트 없음), design 이후가 **자산 모드**(계약·AC·drift 풀가동)다. — 사상은 [`workflow-principles.md`](workflow-principles.md) §2.
+
 ### 신규 기능
 ```
 /flow:design
