@@ -1,5 +1,7 @@
 ---
-description: 수렴점. 모든 진입점(design/troubleshoot)이 코드로 이어졌으면 반드시 통과. Git Diff로 설계 문서를 갱신하고 요약을 생성. 자동 커밋 금지.
+description: >-
+  수렴점. 모든 진입점(design/troubleshoot)이 코드로 이어졌으면 반드시 통과.
+  Git Diff로 설계 문서를 갱신하고 요약을 생성. 자동 커밋 금지.
 argument-hint: '[도메인 (선택 — 없으면 git diff에서 자동 분류)]'
 ---
 
@@ -34,10 +36,11 @@ argument-hint: '[도메인 (선택 — 없으면 git diff에서 자동 분류)]'
    - **의도된 설계 변경**(구현 중 합당한 이유로 바꾼 것): 계약·`task-*.md`를 코드 기준으로 갱신하고 `History`에 **변경 사유**를 자연어로 기록. 계약은 `contract-gate` 통과.
    - **설명되지 않는 코드↔계약 불일치**(버그 의심): 계약을 덮어쓰지 말고 **불일치 리포트**만 → 사람 판단. (나쁜 구현을 SSOT로 세탁 금지)
    - `task-*.md` 구현 상태는 `[완료]`로 갱신.
-   - 변경 사유 중 **프로젝트 수준 결정·정책 변경**은 `doc/decisions/`에 ADR로도 남긴다(사람 확인).
+   - 변경 사유 중 **프로젝트 수준 결정·정책 변경**은 `doc/decisions/`에 ADR로도 남긴다(사람 확인). ADR을 추가·상태변경하면 `doc/decisions/README.md`의 ADR 인덱스 표도 함께 갱신.
 3. **요약 생성** (`doc/summary/summary-{domain}-{task}-{date}.md`):
    - 개요(Task·작업자·날짜·브랜치) / 변경사항(BE·FE·DB) / API 변경 / 특이사항(설계 대비 변경·제약·후속작업)
    - 언어는 `workflow.config.json`의 `language` 설정을 따름(기본 한국어 단일).
+   - 문장 가독성은 `plain-writing` 스킬(쉬운 말 규칙)을 따른다.
 4. **변경 파일 리포트** 출력 후 종료. **커밋하지 않는다** — 커밋이 필요하면 사용자가 `/commit`을 호출한다.
 
 ## 가드레일

@@ -21,18 +21,20 @@ my-project/
 
 ### `doc/` — 폴더별 역할 + 참조 통제
 
+"참조 통제" = AI가 이 폴더를 언제 읽는가. **항상**(늘 읽음) · **작업 중만**(그 작업에 관련될 때만) · **금지**(사용자가 `@`로 직접 넣어야 읽음).
+
 | 폴더 | 입력/출력 | 역할 | 참조 통제 | 관리 |
 |:---|:---:|:---|:---:|:---:|
-| `ref/architecture/` | 입력 | 아키텍처·기술스택·크로스커팅 제약(UTC·금액단위 등) | ★ 상시(인덱스) | 사람 |
-| `ref/patterns/` | 입력 | layout·error·api·task **확정 패턴** — AI가 코드 생성 시 참조하는 정본 | ★ 상시 | 사람 |
-| `ref/db-schema/` | 입력 | DDL (index=테이블 목록, 본문은 선택 로드) | ★ 상시(인덱스) | 사람 |
-| `ref/domains/` | 입력 | 도메인 경계·맵 (뭐가 있는지, 중복 생성 방지) | ★ 상시 | 사람 |
-| `ref/glossary/` | 입력 | 용어집 (용어 오용 방지) | ★ 상시 | 사람 |
-| `design/{domain}/{phase}/` | 출력 | `task-*.md`(자연어 설계) + 계약(타입) | ◑ 작업 중 도메인만 | AI |
-| `decisions/` | 출력·입력 | ADR — 왜 이렇게 했나 | ◑ 허용 | AI+사람 |
-| `summary/` | 출력 | 작업 이력 요약 | ◑ 허용 | AI |
-| `analysis/` | 출력 | 일회성 분석·트러블슈팅·spike 결론 | ✗ 금지 | AI |
-| `spike/` *(doc 밖, repo 루트)* | 출력 | 버릴 실험 코드(`/spike`) — 검증 증거. **유지보수·drift·계약 게이트 대상 아님** | ✗ 금지 | AI |
+| `ref/architecture/` | 입력 | 아키텍처·기술스택·크로스커팅 제약(UTC·금액단위 등) | 항상 (인덱스만) | 사람 |
+| `ref/patterns/` | 입력 | layout·error·api·task **확정 패턴** — AI가 코드 생성 시 참조하는 정본 | 항상 | 사람 |
+| `ref/db-schema/` | 입력 | DDL (index=테이블 목록, 본문은 선택 로드) | 항상 (인덱스만) | 사람 |
+| `ref/domains/` | 입력 | 도메인 경계·맵 (뭐가 있는지, 중복 생성 방지) | 항상 | 사람 |
+| `ref/glossary/` | 입력 | 용어집 (용어 오용 방지) | 항상 | 사람 |
+| `design/{domain}/{phase}/` | 출력 | `task-*.md`(자연어 설계) + 계약(타입) | 작업 중 도메인만 | AI |
+| `decisions/` | 출력·입력 | ADR — 왜 이렇게 했나 | 허용 | AI+사람 |
+| `summary/` | 출력 | 작업 이력 요약 | 허용 | AI |
+| `analysis/` | 출력 | 일회성 분석·트러블슈팅·spike 결론 | 금지 | AI |
+| `spike/` *(doc 밖, repo 루트)* | 출력 | 버릴 실험 코드(`/spike`) — 검증 증거. **유지보수·drift·계약 게이트 대상 아님** | 금지 | AI |
 
 ### 핵심 원리 3가지
 
@@ -69,9 +71,11 @@ my-project/
 | 7 | **사람** | — | **push · merge** (외부 툴) |
 | 8 | `/publish` *(선택)* | design·summary·decisions | **Notion 페이지**(외부 발행) |
 
-> `decisions/`(ADR)는 중요한 결정 시 2·3·5단계에서 기록(상시 아님). **git 훅**(config `drift.mode`)이 커밋/푸시 시 드리프트를 감지(warn/block).
+> `decisions/`(ADR)는 중요한 결정 시 2·3·5단계에서 기록(상시 아님). **git 훅**(config `drift.mode`)이 커밋/푸시 시 드리프트(코드는 바뀌었는데 문서가 안 따라간 상태)를 감지(warn/block).
 
 ### SSOT 두 산출물의 생애 (가장 중요한 흐름)
+
+> SSOT(Single Source of Truth) = 하나의 사실을 담는 단 하나의 정본. 아래 두 산출물이 그 정본이다.
 
 ```
 task-*.md (자연어 설계)

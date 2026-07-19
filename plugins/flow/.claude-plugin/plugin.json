@@ -2,7 +2,7 @@
   "name": "flow",
   "displayName": "AI Dev Workflow",
   "description": "그래프형 진입점(design/spike/troubleshoot/analysis) + 수렴점(sync) + 드리프트 방어를 갖춘 범용 AI 개발 워크플로우. 커맨드·에이전트·스킬·훅은 기본 위치에서 자동 발견된다.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": {
     "name": "park seung hyun",
     "email": "nrwoodpsh@gmail.com"

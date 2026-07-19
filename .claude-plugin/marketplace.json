@@ -10,7 +10,7 @@
       "name": "flow",
       "source": "./plugins/flow",
       "description": "그래프형 진입점 + 수렴점 + 드리프트 방어를 갖춘 범용 AI 개발 워크플로우",
-      "version": "0.4.0"
+      "version": "0.5.0"
     }
   ]
 }

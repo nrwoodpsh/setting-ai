@@ -1,6 +1,8 @@
 ---
 name: doc-template
-description: task-*.md 설계 문서의 표준 섹션 골격을 강제해 일관성을 확보한다. 실제 템플릿은 프로젝트의 doc/ref/patterns/task-doc/에 있고 /design의 기본 참조로 로드된다.
+description: >-
+  task-*.md 설계 문서의 표준 섹션 골격을 강제.
+  실제 템플릿은 프로젝트 doc/ref/patterns/task-doc/에 있고 /design이 로드한다.
 ---
 
 # task-*.md 템플릿
@@ -41,3 +43,4 @@ description: task-*.md 설계 문서의 표준 섹션 골격을 강제해 일관
 - **계약 파일과 중복 작성 금지** — task에는 의도·배경·UX만, 타입·Endpoint·에러코드는 계약만.
 - **수정 가능성 순 유지** — 결정(대안 포함)을 앞, 기계적 File Map을 뒤. 기계적 나열로 문서를 시작하지 않는다.
 - 설계 변경·이탈은 History에 **사유를 자연어로** 기록. 단순 덮어쓰기 금지.
+- **이 스킬은 섹션 골격(구조)만 강제한다.** 문장 가독성은 짝을 이루는 `plain-writing` 스킬(쉬운 말 규칙)이 맡는다.

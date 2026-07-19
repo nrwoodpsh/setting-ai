@@ -1,5 +1,7 @@
 ---
-description: 설계 진입점. 신규 기능을 자연어 설계(task-*.md)와 코드 계약(api-contract)으로 산출. 구현 코드는 작성하지 않는다.
+description: >-
+  설계 진입점. 신규 기능을 자연어 설계(task-*.md)와 코드 계약(api-contract)으로 산출.
+  구현 코드는 작성하지 않는다.
 argument-hint: '[무엇을 설계할지] [REFERENCE @file ...] [AC: 인수조건 3개 이상]'
 ---
 
@@ -45,9 +47,9 @@ argument-hint: '[무엇을 설계할지] [REFERENCE @file ...] [AC: 인수조건
 
 1. **영향도 분석 + 사각지대 패스**: 기존 DB/API/외부 연동에 미치는 영향을 능동 탐색으로 식별한다. 여기에 더해 **repo 이력에서 "모르는 것조차 모르는 것"을 뽑는다** — 되돌려진 시도(revert PR)·중단된 마이그레이션·조용히 우회되는 미들웨어·문서화 안 된 관례. 부딪히면 호되게 배울 함정이므로 **task의 사각지대로 명시**한다. 광범위 스캔은 `explorer` 서브에이전트에 위임(메인 컨텍스트 보호).
 2. **계약 작성**: `doc/design/{domain}/{phase}/`에 계약 파일 생성. 프로젝트의 계약 형식은 `workflow.config.json`의 `contract` 설정을 따른다(기본: `api-contract.ts`). `contract-gate` 스킬로 검증.
-3. **task 문서 작성**: `task-{name}-{date}.md` — Requirements / UI·UX / Logic / File Map / Verification / History. `doc-template` 스킬 참조. **산출은 "수정 가능성 순"으로 제시** — 판단이 갈리는 결정(스키마 선택·타입 인터페이스·사용자에게 보이는 것)은 **택한 안 + 기각한 대안**을 함께 앞에 두고, 기계적 작업(배선·리팩터)은 뒤로 묻는다. 실행 순서가 아니라 **주의를 기울일 것 먼저**.
+3. **task 문서 작성**: `task-{name}-{date}.md` — Requirements / UI·UX / Logic / File Map / Verification / History. 섹션 골격은 `doc-template`, 문장 가독성은 `plain-writing` 스킬(쉬운 말 규칙)을 따른다. **산출은 "수정 가능성 순"으로 제시** — 판단이 갈리는 결정(스키마 선택·타입 인터페이스·사용자에게 보이는 것)은 **택한 안 + 기각한 대안**을 함께 앞에 두고, 기계적 작업(배선·리팩터)은 뒤로 묻는다. 실행 순서가 아니라 **주의를 기울일 것 먼저**.
 4. **교차 검증**: task의 URL·필드·에러코드가 계약과 일치하는지 확인.
-5. **결정 기록**: 설계 중 **중요한 아키텍처 결정·트레이드오프·기존 정책 변경**이 나오면 `doc/decisions/`에 ADR로 기록한다(사람 확인). 사소한 것은 task의 History로 충분.
+5. **결정 기록**: 설계 중 **중요한 아키텍처 결정·트레이드오프·기존 정책 변경**이 나오면 `doc/decisions/`에 ADR로 기록한다(사람 확인). 사소한 것은 task의 History로 충분. **ADR을 추가하거나 상태를 바꾸면 `doc/decisions/README.md`의 ADR 인덱스 표를 함께 갱신**한다.
 
 ## 종료 조건
 
