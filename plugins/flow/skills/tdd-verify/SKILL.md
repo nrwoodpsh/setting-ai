@@ -1,6 +1,8 @@
 ---
 name: tdd-verify
-description: 테스트를 실제로 실행해 Exit code로 통과를 물리적으로 확인함으로써 AI 환각을 방지한다. "통과할 것입니다"라는 추론은 검증이 아니다. /builder의 TDD·셀프검증, /review의 회귀 점검에 사용.
+description: >-
+  테스트를 실제 실행해 Exit code로 통과를 확인(추론은 검증이 아님).
+  /builder의 TDD·셀프검증, /review 회귀 점검에 사용.
 ---
 
 # TDD 검증

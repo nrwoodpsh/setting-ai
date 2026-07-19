@@ -1,5 +1,7 @@
 ---
-description: 완료된 설계·개발 결과를 Notion(또는 문서)로 발행. doc의 산출물(task·계약·summary·ADR)을 모아 구조화된 프로젝트 결과 페이지를 만든다. Notion MCP 필요. 외부 발행이므로 사용자 확인 후 실행.
+description: >-
+  완료된 설계·개발 결과를 Notion 페이지로 발행. doc 산출물(task·계약·summary·ADR)을 모아 구조화한다.
+  Notion MCP 필요, 외부 발행이라 사용자 확인 후 실행.
 argument-hint: '[도메인/페이즈 또는 "project" 전체 (선택)] [→ Notion DB/페이지]'
 ---
 

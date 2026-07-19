@@ -1,5 +1,7 @@
 ---
-description: 프로젝트를 flow 워크플로우에 맞게 초기 세팅. (선택) 아키텍처 원형 생성 + 추천 도구(LSP/MCP) 제안 + CLAUDE.md·workflow.config·doc 초안 채움. 인자 없으면 대화형, `list`면 원형 카탈로그 출력.
+description: >-
+  프로젝트를 flow 워크플로우에 맞게 초기 세팅.
+  (선택) 아키텍처 원형 생성·추천 도구(LSP/MCP) 제안·CLAUDE.md·workflow.config·doc 초안 채움.
 argument-hint: '[list | 원형키(egov-msa …) | repoURL | 참조경로 | (비움=대화형)]'
 ---
 

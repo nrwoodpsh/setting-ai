@@ -1,6 +1,8 @@
 ---
 name: contract-gate
-description: 계약 파일(api-contract 등)을 스택에 맞는 검증 명령으로 컴파일·타입체크하여 환각·오타를 차단하는 게이트. TS에 한정하지 않고 workflow.config.json의 contract 설정으로 스택별 명령을 주입받는다. /design·/builder·/sync에서 게이트로 사용.
+description: >-
+  계약 파일을 스택별 검증 명령으로 컴파일·타입체크해 환각·오타를 차단하는 게이트.
+  /design·/builder·/sync에서 사용(스택은 workflow.config로 주입).
 ---
 
 # 계약 검증 게이트 (스택 무관)
