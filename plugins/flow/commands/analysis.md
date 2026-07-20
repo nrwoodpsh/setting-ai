@@ -35,7 +35,7 @@ argument-hint: '[분석 주제] [REFERENCE @file/@dir ... 분석 대상]'
 
 ## 산출물
 
-- 저장 위치: `doc/analysis/analysis-{주제}-{date}.md`
+- 저장 위치: `doc/analysis/{date}-analysis-{주제}.md` (날짜 앞 — `YYYYMMDD`)
 - **항상 포함**: 분석 대상 범위(무엇을 읽었는가) / 핵심 발견 / 확인 필요 항목(모호했던 부분)
 - **주제에 맞게 취사** (간단한 파악에 전부 강요하지 않는다):
   - 호출 흐름 (Mermaid `sequenceDiagram`) — 흐름이 복잡할 때

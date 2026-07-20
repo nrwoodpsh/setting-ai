@@ -17,12 +17,12 @@ description: >-
 
 ## 산출 위치
 
-`doc/design/{domain}/{phase}/task-{name}-{date}.md`
+`doc/design/{domain}/{phase}/{date}-task-{name}.md`
+- `{date}`: `YYYYMMDD` — **맨 앞**. 숫자로 시작해 폴더 안에서 시간순 정렬되고, `README.md`(있다면)는 항상 맨 아래로 밀린다.
 - `{domain}`: 도메인 (예: `user`, `order`)
 - `{phase}`: 페이즈 (예: `login`, `list`)
 - `{name}`: Task 이름 (kebab-case)
-- `{date}`: `YYYYMMDD`
-- **파일명 충돌**: 같은 `{name}-{date}`가 이미 있으면 덮어쓰지 말고 `-2`·`-3` 접미사로 구분한다(재작업 이력 보존). `analysis-*`·`troubleshoot-*`·`summary-*` 산출물도 동일 규약.
+- **파일명 충돌**: 같은 `{date}-task-{name}`이 이미 있으면 덮어쓰지 말고 `-2`·`-3` 접미사로 구분한다(재작업 이력 보존). `{date}-analysis-*`·`{date}-troubleshoot-*`·`{date}-summary-*` 산출물도 동일 규약(날짜 앞).
 
 ## 표준 섹션 (필수)
 

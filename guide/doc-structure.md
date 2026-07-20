@@ -42,13 +42,25 @@ my-project/
 2. **"상시 참조"는 로드가 아니라 *인덱스만* 상시.** 큰 본문(DDL 전체 등)은 필요할 때 `@` 또는 `explorer`로 선택 로드 (트래픽 절약). 매턴 자동 로드는 `CLAUDE.md` 하나뿐.
 3. **`logs/` 없음.** 검증 결과는 `task-*.md`의 History에 남는다.
 
+### 파일 네이밍 규약 — 숫자로 시작, README는 맨 아래
+
+**불변식: `doc/` 아래 모든 문서 파일은 숫자로 시작한다. `README.md`만 숫자가 없어 폴더에서 항상 맨 아래로 정렬된다.** (정렬 규칙 `숫자 < 대문자 < 소문자` 를 이용 — README 이름은 그대로 둬 GitHub 자동 렌더도 안 깨진다.) 숫자 형태는 폴더 성격에 맞춘다:
+
+| 폴더 | 형식 | 예 | 숫자 의미 |
+|:---|:---|:---|:---|
+| `ref/domains`·`ref/glossary`·`ref/architecture`·`ref/db-schema` | `{NN}-{name}.md` | `01-user.md` | 2자리 순번 (생성 순 append) |
+| `decisions/` | `{NNNN}-{name}.md` | `0001-jwt-over-session.md` | ADR 4자리 순번 |
+| `analysis`·`summary`·`design/{d}/{p}/` | `{YYYYMMDD}-{종류}-{name}.md` | `20260714-task-login.md` | 날짜 앞 (시간순, 카운터 불필요) |
+
+예외: **저장소 루트의 프로젝트 설명 `README.md`**, **`ref/patterns/` 하위 폴더**(`api-contract/`·`task-doc/` 등 — 경로로 참조돼 의미 이름 유지), **계약 파일**(`api-contract.ts` 등 — `workflow.config`가 이름 고정).
+
 ### 헷갈리기 쉬운 구분
 
 | | `ref/domains/` | `design/{domain}/` |
 |:---|:---|:---|
 | 무엇 | 도메인 **경계·정의·맵** (안정적) | 그 도메인의 **task별 설계 산출물** (계속 늘어남) |
 | 누가 | 사람이 관리 | AI가 생성 |
-| 예 | "user는 인증·프로필 담당, order와 연동" | `design/user/login/task-login-20260714.md` |
+| 예 | "user는 인증·프로필 담당, order와 연동" | `design/user/login/20260714-task-login.md` |
 
 ---
 
@@ -61,9 +73,9 @@ my-project/
 | # | 단계 | 읽음 (입력) | 씀 (출력) |
 |:--:|:---|:---|:---|
 | 0 | `/setup` *(프로젝트 1회)* | 스택 지표·(선택)원형 repo | `CLAUDE.md`·`workflow.config`·`doc/` 골격·`.claude/settings.json` |
-| 0.5 | `/spike` *(신규 프로젝트 앞단, 선택)* | 가설·데이터·`ref/architecture` | `spike/`(버릴 코드)·`analysis/spike-*.md`·(승격) `decisions/`·`ref/architecture/` |
+| 0.5 | `/spike` *(신규 프로젝트 앞단, 선택)* | 가설·데이터·`ref/architecture` | `spike/`(버릴 코드)·`analysis/{date}-spike-*.md`·(승격) `decisions/`·`ref/domains`·`ref/glossary` |
 | 1 | `/analysis` *(선택)* | `ref/`, 레거시 코드 | `analysis/` |
-| 2 | `/design` | `CLAUDE.md`, `ref/domains`, `ref/architecture`, `ref/patterns` | `design/{d}/{p}/task-*.md` + 계약 |
+| 2 | `/design` | `CLAUDE.md`, `ref/domains`, `ref/architecture`, `ref/patterns` | `design/{d}/{p}/{date}-task-*.md` + 계약 |
 | 3 | `/builder` | 대상 task+계약, `workflow.config` | **소스 코드**, task의 History |
 | 4 | `/review` *(선택)* | 계약, task, 변경 소스 | (리포트만 — 파일 안 씀) |
 | 5 | `/sync` | `git diff`, 대상 task·계약·summary | `design/` 갱신, `summary/` 생성 |
@@ -72,6 +84,8 @@ my-project/
 | 8 | `/publish` *(선택)* | design·summary·decisions | **Notion 페이지**(외부 발행) |
 
 > `decisions/`(ADR)는 중요한 결정 시 2·3·5단계에서 기록(상시 아님). **git 훅**(config `drift.mode`)이 커밋/푸시 시 드리프트(코드는 바뀌었는데 문서가 안 따라간 상태)를 감지(warn/block).
+>
+> **선택 오버레이 `/run`**: 2→3→5단계(design→builder→sync)를 매번 손으로 호출하는 대신 자동으로 잇는다. 단 규율형 L4를 지켜 **design 청사진 컨펌·국면 실패·commit 직전**에서 멈춘다 — 6단계(commit)와 7단계(push)는 그대로 사람 몫. 자동화하는 건 국면 사이의 *호출*이지 *게이트*가 아니다.
 
 ### SSOT 두 산출물의 생애 (가장 중요한 흐름)
 
@@ -109,6 +123,7 @@ task-*.md (자연어 설계)
               /publish  (선택)                   ← Notion 등 발행
 
    /review = 아무 단계 뒤에나 끼우는 오버레이   ·   커맨드는 /flow:<이름>
+   /run   = design→builder→sync 자동 연결 오버레이(선택) — commit 직전·실패 시 정지
 ```
 
 ### 검증은 3층 (헷갈리지 말 것)

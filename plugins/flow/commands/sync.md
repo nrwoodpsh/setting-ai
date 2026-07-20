@@ -37,7 +37,7 @@ argument-hint: '[도메인 (선택 — 없으면 git diff에서 자동 분류)]'
    - **설명되지 않는 코드↔계약 불일치**(버그 의심): 계약을 덮어쓰지 말고 **불일치 리포트**만 → 사람 판단. (나쁜 구현을 SSOT로 세탁 금지)
    - `task-*.md` 구현 상태는 `[완료]`로 갱신.
    - 변경 사유 중 **프로젝트 수준 결정·정책 변경**은 `doc/decisions/`에 ADR로도 남긴다(사람 확인). ADR을 추가·상태변경하면 `doc/decisions/README.md`의 ADR 인덱스 표도 함께 갱신.
-3. **요약 생성** (`doc/summary/summary-{domain}-{task}-{date}.md`):
+3. **요약 생성** (`doc/summary/{date}-summary-{domain}-{task}.md`, 날짜 앞 — `YYYYMMDD`):
    - 개요(Task·작업자·날짜·브랜치) / 변경사항(BE·FE·DB) / API 변경 / 특이사항(설계 대비 변경·제약·후속작업)
    - 언어는 `workflow.config.json`의 `language` 설정을 따름(기본 한국어 단일).
    - 문장 가독성은 `plain-writing` 스킬(쉬운 말 규칙)을 따른다.

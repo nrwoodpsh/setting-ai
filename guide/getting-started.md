@@ -98,8 +98,8 @@ my-project/
    [가설] 임베딩 기반 매칭이 10만 건에서 200ms 내 응답
    [기준] p95 < 200ms 이면 채택, 넘으면 대안(역색인) 재검토
    ```
-   → `spike/`에 실험 코드(버릴 것), `doc/analysis/spike-*.md`에 결론. **채택/기각 판정 + 핵심 결정은 ADR로 승격**, 확정된 제약은 `doc/ref/architecture/`로.
-3. **검증이 끝나면 자산 모드로.** spike 코드를 그대로 쓰지 말고, ADR을 입력 삼아 `ref/architecture`·`ref/domains`를 확정한 뒤 도메인별 `/design → /builder`로 **재설계**한다.
+   → `spike/`에 실험 코드(버릴 것), `doc/analysis/{date}-spike-*.md`에 결론. **채택/기각 판정 + 핵심 결정은 ADR로 승격**, 확정된 제약은 `doc/ref/architecture/`로.
+3. **검증이 끝나면 자산 모드로.** spike 코드를 그대로 쓰지 말고, ADR·spike 결론을 입력 삼아 AI가 `ref/architecture`·`ref/domains`·`ref/glossary` **초안**을 만든다. 사람이 확인해 확정하면 정본이 되고(소유는 사람), 그다음 도메인별 `/design → /builder`로 **재설계**한다. 이후 `/design`이 새 용어·경계를 발견할 때마다 `ref/domains`·`glossary`를 갱신한다 — 처음부터 사람이 백지에서 채우는 게 아니라, **검증으로 얻은 지식을 AI 초안으로 받아 다듬는 것**이 시작점이다.
 
 > `spike/`는 drift·계약 게이트 대상이 아니다(config `drift.ignore`에 `spike/**`, `CLAUDE.md` 참조 금지). 앞단은 **학습 모드**(게이트 없음), design 이후가 **자산 모드**(계약·AC·drift 풀가동)다. — 사상은 [`workflow-principles.md`](workflow-principles.md) §2.
 

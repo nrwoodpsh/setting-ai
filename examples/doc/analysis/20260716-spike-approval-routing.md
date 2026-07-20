@@ -42,6 +42,6 @@
 ## 승격 (durable 지식)
 
 - 결정 → ADR [`0002-approval-line-rule-engine.md`](../decisions/0002-approval-line-rule-engine.md)
-- 아키텍처 사실·제약 → [`ref/architecture/approval-routing.md`](../ref/architecture/approval-routing.md)
+- 아키텍처 사실·제약 → [`ref/architecture/01-approval-routing.md`](../ref/architecture/01-approval-routing.md)
 
 → 다음 단계: 이 ADR을 입고 `approval` 도메인 `/design`.
