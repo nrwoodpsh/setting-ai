@@ -1,0 +1,31 @@
+# ─────────────────────────────────────────────────────────────
+# Drift Gate (서버측·우회 불가) — 옵트인
+# ─────────────────────────────────────────────────────────────
+# 로컬 git 훅(automation/git-hooks/drift-hook.sh)은 `git push --no-verify`로 우회된다.
+# 이 워크플로우는 PR에서 한 번 더 막아 **우회 불가능한 이중 방어**를 만든다:
+#   코드 변경이 있는데 doc/summary/ 갱신이 없으면 PR을 실패(머지 차단)시킨다.
+#
+# flow 기본 철학상 하드 게이트는 옵트인이다(로컬 drift.mode 기본값도 비차단 `warn`).
+# 그래서 이 파일은 `.example`로 배포된다 — 활성화하려면 확장자를 벗겨라:
+#   mv .github/workflows/drift-gate.yml.example .github/workflows/drift-gate.yml
+#
+# 차단이 아니라 알림만 원하면 아래 `exit 1`을 `exit 0`으로 바꾸고 `::error::`를 `::warning::`으로.
+# ─────────────────────────────────────────────────────────────
+name: Drift Gate
+on: pull_request
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: 코드 변경엔 doc/summary 동반 확인
+        run: |
+          BASE=${{ github.event.pull_request.base.sha }}
+          HEAD=${{ github.event.pull_request.head.sha }}
+          CODE=$(git diff --name-only $BASE $HEAD | grep -Ev '^(doc/|\.claude/|\.github/|spike/|.*\.md$)' | wc -l)
+          SUM=$(git diff --name-only $BASE $HEAD | grep -E '^doc/summary/' | wc -l)
+          if [ "$CODE" -gt 0 ] && [ "$SUM" -eq 0 ]; then
+            echo "::error::코드 변경이 있으나 doc/summary/ 갱신 없음. /flow:sync 실행 후 다시 푸시."; exit 1
+          fi
+          echo "drift-gate: OK (코드 변경 ${CODE}건 / summary 변경 ${SUM}건)"
